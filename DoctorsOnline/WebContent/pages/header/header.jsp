@@ -8,7 +8,7 @@
 <script src="/DoctorsOnline/resources/js/jquery-latest.min.js" type="text/javascript"></script>
 <script src="/DoctorsOnline/resources/js/menu.js"></script>
 
-<title>Doctor's Medicine</title>
+<title>Doctor's Online</title>
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/generic.css">
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/search.css">
 </head>
