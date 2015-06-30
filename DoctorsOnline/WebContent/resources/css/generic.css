@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+
+.mainTable{
+margin-left: auto;
+margin-right: auto;
+border-collapse: collapse;
+border-spacing: 0px;
+width: 40%;
+}
+
+.moduleHeader{
+	text-align: center;
+}
+
+tr td {
+	border: 1px solid gray;
+}
+
+.fullText{
+	width: 100%;
+}
+
+.mainTR{
+	text-align: center;
+}
