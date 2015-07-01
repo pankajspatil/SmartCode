@@ -7,15 +7,23 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.dataTables.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery.dataTables.min.css"></link>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#patientData').DataTable();
+} );
+</script>
 </head>
 <body>
-<form action="#" name="f1" id="f1" method="post">
-<h1 class="moduleHeader"> Search Patient</h1>
-<table class="mainTable">
+<form action="searchPatient.jsp" name="f1" id="f1" method="post">
+<h1 class="moduleHeader" style="text-align: center;"> Search Patient</h1>
+<table class="mainTable" align="center">
 	<tr class="mainTR">
-		<td>Search By</td>
-		<td>Value</td>
+		<th>Search By</th>
+		<th>Value</th>
 	</tr>
 	<tr class="mainTR">
 		<td>
@@ -35,6 +43,18 @@
 </table>
 <%
 	if(request.getParameter("searchBtn") != null){
+		%>
+			<br/><br/><br/>
+			<table border="" align="center" id="patientData" class="display" cellspacing="0" width="100%">
+				<thead>
+					<tr>
+						<th>First Name</th>
+						<th>Middle Name</th>
+						<th>Last Name</th>
+					</tr>
+				</thead>
+				<tbody>
+		<%
 	Search searchPatient = new Search();
 	Integer searchKey = Integer.parseInt(request.getParameter("searchKey"));
 	String searchValue = request.getParameter("searchValue");
@@ -42,23 +62,12 @@
 	try{
 		dataRS = searchPatient.searchPatient(searchKey, searchValue);
 	if(dataRS != null){
-		%>
-			<table align="center">
-				<tr>
-					<td>First Name</td>
-					<td>Middle Name</td>
-					<td>Last Name</td>
-				</tr>
-				<%while(dataRS.next()){
-					%><tr>
-					<td><%=dataRS.getString("firstName") %></td>
-					<td><%=dataRS.getString("middleName") %></td>
-					<td><%=dataRS.getString("lastName") %></td>
-				</tr><%}%>
-				
-				
-			</table>
-		<%
+		while(dataRS.next()){
+			%><tr>
+			<th><%=dataRS.getString("firstName") %></th>
+			<th><%=dataRS.getString("middleName") %></th>
+			<th><%=dataRS.getString("lastName") %></th>
+		</tr><%}
 	}	
 	
 	}catch(Exception e){
@@ -67,6 +76,9 @@
 		searchPatient.closeResultSet(dataRS);
 		dataRS= null;
 	}
+	%></tbody>
+				
+			</table><%
 	}// end of request
 %>
 

@@ -69,7 +69,7 @@ public Boolean createNewUser(String userName, String firstName, String middleNam
 	connectionsUtil= new ConnectionsUtil();
 	conn = connectionsUtil.getConnection();
 	
-	String query = "insert into userMaster(userName, firstName, middleName, lastName, password, isActive) values(?,?,?,?,?,?)";
+	String query = "insert into userMaster(userName, firstName, middleName, lastName, password, isActive,createdBy,phone) values(?,?,?,?,?,?,?,?)";
 	
 	PreparedStatement psm = conn.prepareStatement(query);
 	psm.setString(1, userName);
@@ -78,6 +78,8 @@ public Boolean createNewUser(String userName, String firstName, String middleNam
 	psm.setString(4, lastName);
 	psm.setString(5, password);
 	psm.setString(6, "Y");
+	psm.setInt(7, 1);
+	psm.setInt(8, 1);
 	
 	psm.executeUpdate();
 		return true;
