@@ -19,19 +19,19 @@
 <body>
 
 <%
-	ConnectionsUtil connectionsUtil = new ConnectionsUtil();
-	Connection conn = connectionsUtil.getConnection();
 	String userName = request.getParameter("userName") == null ? "" : request.getParameter("userName");
 	String password = request.getParameter("password") == null ? "" : request.getParameter("password") ;
 	String page1 = request.getParameter("page1");
-	Boolean userExist = true;
+	Integer userId = null;
 
 	if(page1 != null && page1.equals("submit")){
 		Login login = new Login();
-		userExist = login.verifyUser(userName, password);	
-		if(userExist){
+		userId = login.verifyUser(userName, password);	
+		out.println("userId===>" + userId);
+		if(userId != 0){
+			session.setAttribute("userId", userId);
 			response.sendRedirect("/DoctorsOnline/pages/home/home.jsp");
-		}
+		}		
 	}
 %>
 
@@ -41,7 +41,9 @@
       <form method="post" action="">
         <p><input type="text" name="userName" value="<%=userName %>" placeholder="Username or Email"></p>
         <p><input type="password" name="password" value="<%=password %>" placeholder="Password"></p>
-        <%	if(!userExist){
+        <%	out.println("userId===>" + userId);
+        	if(userId != null && userId == 0){
+        	out.println("error");
         	%><p><label>Wrong username or password</label></p><% 
         }
         %>
@@ -75,5 +77,10 @@
       <a href="http://www.cssflow.com/mit-license" target="_blank">MIT License</a><br>
       Original PSD by <a href="http://www.premiumpixels.com/freebies/clean-simple-login-form-psd/" target="_blank">Orman Clark</a>
   </section> -->
+  
+  <%
+  	userId = null;
+  	finalize();
+  %>
 </body>
 </html>

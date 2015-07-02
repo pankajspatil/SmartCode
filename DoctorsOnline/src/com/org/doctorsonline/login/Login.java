@@ -3,6 +3,7 @@ package com.org.doctorsonline.login;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
 
@@ -12,7 +13,7 @@ public class Login {
 	ResultSet rs = null;
 	ConnectionsUtil connectionsUtil = null;
 	
-	public Boolean verifyUser(String userName, String password){		
+	public Integer verifyUser(String userName, String password){		
 		
 		try{		
 		connectionsUtil= new ConnectionsUtil();
@@ -26,16 +27,23 @@ public class Login {
 		
 		rs = psm.executeQuery();
 		if(rs.next()){
-			return true;
+			return rs.getInt("userId");
 		}
 		
 		}catch(Exception ex){
 			ex.printStackTrace();
+		}finally{
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		rs = null; conn = null;
 		
-		return false;
+		return 0;
 	}
 	
 public Boolean verifyUser(String userName){		
