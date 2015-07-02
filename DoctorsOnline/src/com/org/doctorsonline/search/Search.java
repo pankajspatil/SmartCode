@@ -1,9 +1,11 @@
 package com.org.doctorsonline.search;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
 
@@ -20,10 +22,35 @@ public class Search {
 		switch (searchKey) {
 		case 1:
 			dataRS = getPatientByName(searchValue);
+			break;
+		case 2:
+			dataRS = getPatientByMobileNo(searchValue);
+			break;
+		case 4:
+			dataRS = getPatientByDOB(searchValue);
+			break;
 		default:
 
 		}
 
+		return dataRS;
+	}
+
+	private ResultSet getPatientByDOB(String dob) {
+
+		ResultSet dataRS = null;
+		
+		try{
+			connectionsUtil = new ConnectionsUtil();		
+			conn = connectionsUtil.getConnection();
+			String query = "select * from userMaster where dob  = ?";
+			PreparedStatement pst = conn.prepareStatement(query);
+			dataRS = pst.executeQuery();
+			
+			query = null;connectionsUtil = null;			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 		return dataRS;
 	}
 
@@ -34,13 +61,8 @@ public class Search {
 		try{
 			connectionsUtil = new ConnectionsUtil();		
 			conn = connectionsUtil.getConnection();
-			
 			String query = "select * from userMaster where firstName like '%"+searchValue+"%' or lastName like '%"+searchValue+"%'";
-			
-			System.out.println("query===>" + query);
-			
 			dataRS = conn.createStatement().executeQuery(query);
-					
 			
 		}catch(Exception ex){
 			ex.printStackTrace();
@@ -48,9 +70,24 @@ public class Search {
 		return dataRS;
 	}
 
-	public ResultSet getPatientByMobileNo() {
+	public ResultSet getPatientByMobileNo(String phone) {
 
-		return null;
+		ResultSet dataRS = null;
+		try{
+			connectionsUtil = new ConnectionsUtil();		
+			conn = connectionsUtil.getConnection();
+			String query = "select * from userMaster where phone = ?";
+			PreparedStatement pst = conn.prepareStatement(query);
+			pst.setString(1, phone);
+			dataRS = pst.executeQuery();
+			
+			query = null;connectionsUtil = null;
+			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		
+		return dataRS;
 	}
 
 	public ResultSet getPatientByAdharNo() {
@@ -58,19 +95,6 @@ public class Search {
 		return null;
 	}
 	
-	public void closeResultSet(ResultSet rs){
-		Statement st;
-		try {
-			if (rs!=null){
-				st = rs.getStatement();
-				connectionsUtil.closeConnection(st);
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+	
 
 }

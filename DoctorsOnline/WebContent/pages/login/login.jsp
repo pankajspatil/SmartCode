@@ -27,7 +27,6 @@
 	if(page1 != null && page1.equals("submit")){
 		Login login = new Login();
 		userId = login.verifyUser(userName, password);	
-		out.println("userId===>" + userId);
 		if(userId != 0){
 			session.setAttribute("userId", userId);
 			response.sendRedirect("/DoctorsOnline/pages/home/home.jsp");
@@ -41,9 +40,8 @@
       <form method="post" action="">
         <p><input type="text" name="userName" value="<%=userName %>" placeholder="Username or Email"></p>
         <p><input type="password" name="password" value="<%=password %>" placeholder="Password"></p>
-        <%	out.println("userId===>" + userId);
+        <%	
         	if(userId != null && userId == 0){
-        	out.println("error");
         	%><p><label>Wrong username or password</label></p><% 
         }
         %>

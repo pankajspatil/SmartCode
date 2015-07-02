@@ -43,8 +43,22 @@ public class ConnectionsUtil {
 		return conn;
 	}
 	
+	public static void closeResultSet(ResultSet rs){
+		Statement st;
+		try {
+			if (rs!=null){
+				st = rs.getStatement();
+				ConnectionsUtil.closeConnection(st);
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	
-	public void closeConnection(Statement st){
+	public static void closeConnection(Statement st){
 		Connection con = null;
 		if (st!=null){
 			try {

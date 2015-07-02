@@ -9,7 +9,6 @@
 <%
 	if(session.getAttribute("userId") == null){
 		response.sendRedirect("/DoctorsOnline/pages/login/login.jsp");
-		System.out.println("Done");
 	}
 %>
 </body>
