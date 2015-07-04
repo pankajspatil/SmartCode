@@ -29,8 +29,8 @@
       </ul>
    </li>
    <li><a href='#'><span>About</span></a></li>
-   <li class='last'><a href='<%=Contextpath %>/generic/contact.jsp'><span>Contact</span></a></li>
-   <li class='last'><a href='<%=Contextpath %>/login/logout.jsp'><span>Contact</span></a></li>
+   <li class='last'><a href='<%=Contextpath %>/pages/generic/contact.jsp'><span>Contact</span></a></li>
+   <li class='last'><a href='<%=Contextpath %>/pages/login/logout.jsp'><span>Logout</span></a></li>
 </ul>
 </div>
 </body>

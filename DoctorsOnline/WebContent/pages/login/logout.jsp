@@ -8,7 +8,7 @@
 <body>
 <%
 		session.invalidate();
-		response.sendRedirect("/DoctorsOnline");
+		response.sendRedirect(request.getContextPath());
 %>
 </body>
 </html>

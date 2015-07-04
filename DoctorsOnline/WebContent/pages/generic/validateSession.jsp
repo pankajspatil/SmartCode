@@ -8,7 +8,7 @@
 <body>
 <%
 	if(session.getAttribute("userId") == null){
-		response.sendRedirect("/DoctorsOnline/pages/login/login.jsp");
+		//response.sendRedirect("/DoctorsOnline/pages/login/login.jsp");
 	}
 %>
 </body>
