@@ -3,9 +3,6 @@ package com.org.doctorsonline.search;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Date;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
 
@@ -87,6 +84,45 @@ public class Search {
 			ex.printStackTrace();
 		}
 		
+		return dataRS;
+	}
+	
+	public ResultSet getUser(String userId){
+	
+		ResultSet dataRS = null;
+		try{		
+			connectionsUtil= new ConnectionsUtil();
+			conn = connectionsUtil.getConnection();
+			
+			String query = "select * from usermaster where userId = ?";
+			
+			PreparedStatement psm = conn.prepareStatement(query);
+			psm.setString(1, userId);
+			
+			dataRS = psm.executeQuery();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
+		return dataRS;
+	}
+	
+public ResultSet getAllPrescriptions(){
+	ResultSet dataRS = null;
+		
+		try{		
+			connectionsUtil= new ConnectionsUtil();
+			conn = connectionsUtil.getConnection();
+			
+			String query = "select * from prescription";
+			
+			PreparedStatement psm = conn.prepareStatement(query);
+			
+			dataRS = psm.executeQuery();
+			}catch(Exception ex){
+				ex.printStackTrace();
+			}
+			
 		return dataRS;
 	}
 

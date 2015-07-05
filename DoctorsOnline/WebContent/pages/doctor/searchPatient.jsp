@@ -13,6 +13,8 @@
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
 
+<script type="text/javascript" src="/DoctorsOnline/resources/js/search.js"></script>
+
 <link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.css"></link>
 <link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.structure.css"></link>
 <link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery.dataTables.min.css"></link>
@@ -20,28 +22,11 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-    $('#patientData').DataTable();
+    $('#patientData').DataTable({    
+    	"aoColumnDefs": [{ "bSortable": false, "aTargets": [ 0 ] }],
+    	"order": [[ 1, "asc" ]]
+    });
 } );
-
-function searchKeySelect(selectObj){
-	$("#searchValue").val('');
-	if(selectObj.options[selectObj.selectedIndex].value == 3){
-		var yrRange = '1900:'+ new Date().getFullYear();
-		$( "#searchValue" ).datepicker({
-		      changeMonth: true,
-		      changeYear: true,
-		      dateFormat : 'yy-mm-dd',
-		      minDate: '1900-1-1',
-		      maxDate: new Date(),
-		      yearRange : yrRange,
-		      onSelect: function(dateText, inst) {
-		    	  $("#searchValue").attr('readonly', true);
-		      }
-		    });
-	}else{
-		$( "#searchValue" ).datepicker("destroy");
-	}
-}
 
 </script>
 </head>
@@ -80,6 +65,7 @@ function searchKeySelect(selectObj){
 						<th>Middle Name</th>
 						<th>Last Name</th>
 						<th>Phone</th>
+						<th>Operations</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -97,6 +83,12 @@ function searchKeySelect(selectObj){
 			<th><%=dataRS.getString("middleName") %></th>
 			<th><%=dataRS.getString("lastName") %></th>
 			<th><%=dataRS.getString("phone") %></th>
+			<th>
+				<input type="button" name="Edit" value="E" onclick="openPage('edit','<%=dataRS.getString("userId") %>')" />
+				<input type="button" name="Delete" value="D" onclick="openPage('delete','<%=dataRS.getString("userId") %>')" />
+				<input type="button" name="NewVisit" value="NV" onclick="openPage('vNew','<%=dataRS.getString("userId") %>')" />
+				<input type="button" name="Visit History" value="VH" onclick="openPage('vHistory','<%=dataRS.getString("userId") %>')" />
+			</th>
 		</tr><%}
 	}	
 	
