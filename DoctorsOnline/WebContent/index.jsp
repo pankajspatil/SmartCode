@@ -4,11 +4,11 @@
 <html>
 	<head>
 		<title>Doctor's Online</title>
-		<link href="/DoctorsOnline/resources/css/template.css" rel="stylesheet" type="text/css"  media="all" />
+		<link href="<%=request.getContextPath() %>/resources/css/template.css" rel="stylesheet" type="text/css"  media="all" />
 		<link href='http://fonts.googleapis.com/css?family=Ropa+Sans' rel='stylesheet' type='text/css'>
 		<link rel="stylesheet" href="/DoctorsOnline/resources/css/responsiveslides.css">
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script src="/DoctorsOnline/resources/js/responsiveslides.min.js"></script>
+		<script src="<%=request.getContextPath() %>/resources/js/responsiveslides.min.js"></script>
 		  <script>
 		    //// You can also use "$(window).load(function() {"
 			    //$(function () {
@@ -29,7 +29,7 @@
 				<div class="wrap">
 				<!--start-logo-->
 				<div class="logo">
-					<a href="index.html"><img src="/DoctorsOnline/resources/images/logo.png" title="logo" /></a>
+					<a href="index.html"><img src="<%=request.getContextPath() %>/resources/images/logoNew.png" title="logo" /></a>
 				</div>
 				<!--end-logo-->
 				<!--start-top-nav-->

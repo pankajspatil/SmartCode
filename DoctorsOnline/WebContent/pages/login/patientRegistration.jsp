@@ -13,7 +13,7 @@
 </head>
 <body>
  
-	<form method="get" id="FSForm" action="userRegistration">
+	<form method="get" id="FSForm" action="/DoctorsOnline/userRegistration">
 		<section class="container"> <!-- BEGIN_ITEMS -->
 		<div class="outside_container form_shadow_top">
 			<div class="form_shadow_top_left">
