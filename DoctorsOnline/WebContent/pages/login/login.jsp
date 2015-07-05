@@ -29,7 +29,7 @@
 		userId = login.verifyUser(userName, password);	
 		if(userId != 0){
 			session.setAttribute("userId", userId);
-			response.sendRedirect("/DoctorsOnline/pages/home/home.jsp");
+			response.sendRedirect(request.getContextPath()+"/pages/home/home.jsp");
 		}		
 	}
 %>

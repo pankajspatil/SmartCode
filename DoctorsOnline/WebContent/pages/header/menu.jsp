@@ -10,13 +10,12 @@
 <% String Contextpath = request.getContextPath(); %>
 <div id='cssmenu'>
 <ul>
-   <li><a href='#'><span>Home</span></a></li>
-   <li><a href='<%=Contextpath %>/pages/login/login.jsp'><span>Login</span></a> 
+   <li><a href='<%=Contextpath %>'><span>Home</span></a></li>
    <li><a href='#'><span>Patient</span></a>
        <ul>
          <li class='has-sub'><a href='#'><span>New</span></a>
             <ul>
-               <li><a href='<%=Contextpath %>/pages/login/patientRegistration.jsp'><span>Registration</span></a></li>
+               <li><a href='<%=Contextpath %>/pages/login/createUser.jsp'><span>Registration</span></a></li>
 <!--                <li class='last'><a href='#'><span>Sub Product</span></a></li> -->
             </ul>
          </li>
@@ -27,9 +26,7 @@
 <!--             </ul> -->
          </li>
       </ul>
-   </li>
-   <li><a href='#'><span>About</span></a></li>
-   <li class='last'><a href='<%=Contextpath %>/pages/generic/contact.jsp'><span>Contact</span></a></li>
+   </li>   
    <li class='last'><a href='<%=Contextpath %>/pages/login/logout.jsp'><span>Logout</span></a></li>
 </ul>
 </div>
