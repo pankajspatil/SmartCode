@@ -1,3 +1,4 @@
+<%@page import="java.util.Date"%>
 <%@page import="com.org.doctorsonline.generic.ConnectionsUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.org.doctorsonline.search.Search"%>
@@ -13,6 +14,7 @@
   <link rel="stylesheet" href="/DoctorsOnline/resources/css/jquery-ui.structure.css">
   <script src="/DoctorsOnline/resources/js/jquery.js"></script>
   <script src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
+  <script type="text/javascript" src="/DoctorsOnline/resources/js/search.js"></script>
   
   <style>
   .custom-combobox {
@@ -43,6 +45,10 @@
   * html .ui-autocomplete {
     height: 300px;
   }
+  table
+{
+  border-collapse:collapse;
+}
   </style>
   <script>
   (function( $ ) {
@@ -184,6 +190,8 @@
   </script>
 </head>
 <body>
+<br/>
+<h1 align="center">Patient New Visit</h1>
 <%
 	String userId = request.getParameter("userId");
 	Search search = new Search();
@@ -191,33 +199,54 @@
 	
 	ResultSet userDataRS = search.getUser(userId);
 	if(userDataRS != null){
+		
+		userDataRS.next();
+		
+		patientName += (userDataRS.getString("firstName") + " "
+				+ userDataRS.getString("middleName") + " " 
+				+ userDataRS.getString("lastName")).replaceAll("[ ]+", " ");
+		String today = new Date().toString();
+		
 		%>
-			<table align="center" border="1">
+			<table align="center" width="50%">
 				<tr>
-					<td>Patient Name</td>
-					<td>Mobile</td>
+					<td>Patient Name : </td>
+					<td align="left"><%=patientName %></td>
+					<td>Date : </td>
+					<td align="left"><%=today %></td>
+					
 				</tr>
-				<%
-				while(userDataRS.next()){
-					patientName += (userDataRS.getString("firstName") + " "
-								+ userDataRS.getString("middleName") + " " 
-								+ userDataRS.getString("lastName")).replaceAll("[ ]+", " ");
-					%>
-						<tr>
-							<td><%=patientName %></td>
-							<td><%=userDataRS.getString("phone") %></td>
-						</tr>
-					<%
-				}
-				%>
+				
 			</table>
 			<br/>
 			<br/>
+			<table align="center" width="50%">
+				<tr>
+					<td>Weight : </td>
+					<td><input type="text" name="weight" id="weight" value=""></td>
+					<td>Height : </td>
+					<td><input type="text" name="height" id="height" value=""></td>
+					<td>BP : </td>
+					<td><input type="text" name="bp" id="bp" value=""></td>
+				</tr>
+				<tr>
+					<td colspan="6" align="left">Visit Summary</td>
+				</tr>
+				<tr>
+					<td colspan="6" align="left">
+						<textarea rows="6" cols="1" name="summary" id="summary" style="width: 100%"></textarea>
+					</td>
+				</tr>
+			</table>
+			<br/>
+			<br/>
+			
 		<%
+		//userDataRS.next();
 	}
 	
 	ResultSet dataRS = search.getAllPrescriptions();
-	%><table border="1" width="50%">
+	%><table align="center" width="50%" border="1">
 		<tr>
 			<td>Medicine Name</td>
 			<td>Opeartion</td>
@@ -227,17 +256,32 @@
 				<select id="combobox">
 				<option value="">Select one...</option>
 					<%while(dataRS.next()){
-						%><option value="<%=dataRS.getString("drug_name") %>"><%=dataRS.getString("drug_name") %></option><%
+						%><option value="<%=dataRS.getString("prescription_id") %>"><%=dataRS.getString("drug_name") %></option><%
 					}
 					%>
 				</select>
 			</td>
-			<td><input type="button" value="add" name="add" id="add"></td>
+			<td><input type="button" value="add" name="add" id="add" onclick="addPrescription()"></td>
 		</tr>
-	</table><%
+	</table>
+	<br/><br/>
+	<table width="50%" border="1" name="addedPrescription" id="addedPrescription" align="center">
+		<tr>
+			<td>Prescription Name</td>
+			<td>Dose</td>
+			<td>Usage</td>
+			<td>Action</td>
+		</tr>
+		<tr id="noData"><td colspan="4" align="center">No Prescription Added</td></tr>
+	</table>
+	<br/>
+	<input type="submit" value="Submit" name="page1" id="page1" align="middle">
+	<%
 	
 	
 	ConnectionsUtil.closeResultSet(userDataRS);
+	
+	ConnectionsUtil.closeResultSet(dataRS);
 %>
 </body>
 </html>

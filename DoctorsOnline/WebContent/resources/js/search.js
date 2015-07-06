@@ -57,5 +57,54 @@ function openPage(oepration, userId){
     default:
         alert('Something went wrong!');
 }
-	
 }
+	
+function addPrescription(){
+	var prescriptionId = $('#combobox').find('option:selected').val();
+	var prescriptionName = $('#combobox').find('option:selected').text();
+	
+	var tableObj = $('#addedPrescription');
+	$('#noData').remove();
+	
+	var isPresesnt = false;
+	
+	tableObj.find("input[type='hidden']").each(function(){
+	     if(prescriptionId == $(this).val()){
+	    	 alert('Prescription already added.');
+	    	 isPresesnt = true;
+	     }
+	  });
+	
+	if(!isPresesnt){
+	
+	var row = "<tr>" +
+				"<td>" +
+					"<input type='hidden' name='prescriptionId' value='"+prescriptionId+"'>" + 
+					prescriptionName + 
+				" </td>" +
+				"<td></td>" +
+				"<td></td>" +
+				"<td><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
+			"</tr>";
+	
+	tableObj.append(row);
+	}
+}
+
+function deleteRow(cellObj){
+	var row = cellObj.closest('tr');
+	row.remove();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+	
