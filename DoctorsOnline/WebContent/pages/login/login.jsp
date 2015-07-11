@@ -1,5 +1,5 @@
 <%@page import="com.org.doctorsonline.login.Login"%>
-<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.Connection,java.util.List"%>
 <%@page import="com.org.doctorsonline.generic.ConnectionsUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -29,6 +29,8 @@
 		userId = login.verifyUser(userName, password);	
 		if(userId != 0){
 			session.setAttribute("userId", userId);
+			List<String> list = login.getUserMenu(userName);
+			session.setAttribute("menu",list);
 			response.sendRedirect(request.getContextPath()+"/pages/home/home.jsp");
 		}		
 	}
