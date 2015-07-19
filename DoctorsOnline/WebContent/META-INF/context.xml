@@ -7,13 +7,13 @@ auth="Container"
 
 type="javax.sql.DataSource"
 
-username="root"
+username="citybazz_Root"
 
-password="admin"
+password="Doctor@admin"
 
 driverClassName="com.mysql.jdbc.Driver"
 
-url="jdbc:mysql://localhost:3306/doctorsonline"
+url="jdbc:mysql://localhost:3306/citybazz_doctoronline"
 
 maxActive="100"
 

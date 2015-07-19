@@ -40,7 +40,7 @@
 			<%
 				if (menulist.contains("Logout")) {
 			%>
-			<li><a href='<%=Contextpath%>/pages/login/createUser.jsp'><span>Registration</span></a></li>
+			<li><a href='<%=Contextpath%>/pages/doctor/createUser.jsp'><span>Registration</span></a></li>
 			<%
 				}
 			%>

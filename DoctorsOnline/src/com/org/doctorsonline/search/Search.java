@@ -114,7 +114,7 @@ public ResultSet getAllPrescriptions(){
 			connectionsUtil= new ConnectionsUtil();
 			conn = connectionsUtil.getConnection();
 			
-			String query = "select * from prescription";
+			String query = "select * from medicine_master";
 			
 			PreparedStatement psm = conn.prepareStatement(query);
 			

@@ -9,23 +9,15 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description></description>
-    <display-name>userRegistration</display-name>
-    <servlet-name>userRegistration</servlet-name>
-    <servlet-class>com.org.doctoronline.user.userRegistration</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>userRegistration</servlet-name>
-    <url-pattern>/userRegistration</url-pattern>
-  </servlet-mapping>
-  
   <filter>
-        <filter-name>SessionFilter</filter-name>
-        <filter-class>com.org.doctorsonline.generic.SessionFilter</filter-class>
-    </filter>
-<!--     <filter-mapping> -->
-<!-- 	<filter-name>SessionFilter</filter-name> -->
-<!-- 	<url-pattern>*/doctor/*</url-pattern> -->
-<!-- </filter-mapping> -->
+    <filter-name>SessionFilter</filter-name>
+    <filter-class>com.org.doctorsonline.generic.SessionFilter</filter-class>
+  </filter>
+  
+  <servlet>  
+   <servlet-name>loadApplication</servlet-name>  
+   <servlet-class>com.org.loadApplication</servlet-class>  
+   <load-on-startup>0</load-on-startup>  
+  </servlet>  
+  
 </web-app>

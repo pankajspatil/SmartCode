@@ -1,5 +1,7 @@
+<%@page import="java.util.concurrent.ConcurrentHashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.org.doctorsonline.generic.ConnectionsUtil"%>
+<%@page import="java.util.*"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="com.org.doctorsonline.search.Search"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -224,16 +226,33 @@ table {
 	</table>
 	<br />
 	<br />
-	<table align="center" width="50%">
+	<table align="center" width="60%">
 		<tr>
 			<td>Weight :</td>
-			<td><input type="text" name="weight" id="weight" value=""></td>
+			<td><input type="text" name="weight" size="5" id="weight" value=""></td>
 			<td>Height :</td>
-			<td><input type="text" name="height" id="height" value=""></td>
+			<td><input type="text" name="height" size="5" id="height" value=""></td>
 			<td>BP :</td>
-			<td><input type="text" name="bp" id="bp" value=""></td>
+			<td><input type="text" name="bp" id="bp" size="5" value=""></td>
+			<td>BMI :</td>
+			<td><input type="text" name="bmi" size="5" id="bmi" title="Body Mass Index" value=""></td>
+			<td>GFR :</td>
+			<td><input type="text" name="gfr" size="5" id="gfr" value=""></td>
+						
 		</tr>
 		<tr>
+			<td colspan="5">Immune status</td>
+			</tr>
+		<tr>
+			<td>HBV :</td>
+			<td><input type="text" name="HBV" id="HBV" size="5" value=""></td>	
+			<td>HIV :</td>
+			<td><input type="text" name="HIV" id="HIV" size="5" value=""></td>
+			<td>G6PD :</td><td><input type="text" name="G6PD" id="G6PD" size="5" value=""></td>
+			<td>AbnormalHB :</td><td><input type="text" name="abnormalHB" id="abnormalHB" size="5" value=""></td>
+			<td>Allergy :</td><td><input type="text" name="allergy" id="allergy" size="5" value=""></td>		
+		</tr>
+		<tr><br>
 			<td colspan="6" align="left">Visit Summary</td>
 		</tr>
 		<tr>
@@ -248,7 +267,7 @@ table {
 		//userDataRS.next();
 	}
 	
-	ResultSet dataRS = search.getAllPrescriptions();
+	ConcurrentHashMap<String,String> prescription = (ConcurrentHashMap<String,String>) application.getAttribute("prescription");
 	%><table align="center" width="70%" border="1">
 		<tr>
 			<td>Medicine Name</td>
@@ -259,8 +278,11 @@ table {
 		<tr>
 			<td><select id="combobox">
 					<option value="">Select one...</option>
-					<%while(dataRS.next()){
-						%><option value="<%=dataRS.getString("prescription_id") %>"><%=dataRS.getString("drug_name") %></option>
+					<%
+					Iterator it = prescription.entrySet().iterator();
+				    while (it.hasNext()) {
+				        Map.Entry pair = (Map.Entry)it.next();				        
+				     	%><option value="<%=pair.getKey() %>"><%=pair.getValue() %></option>
 					<%
 					}
 					%>
@@ -302,7 +324,6 @@ table {
 	
 	ConnectionsUtil.closeResultSet(userDataRS);
 	
-	ConnectionsUtil.closeResultSet(dataRS);
 %>
 </body>
 </html>

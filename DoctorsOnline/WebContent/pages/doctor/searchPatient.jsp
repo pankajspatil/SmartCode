@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.js"></script>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
@@ -31,6 +32,7 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
+
 <form action="searchPatient.jsp" name="f1" id="f1" method="post">
 <h1 class="moduleHeader" style="text-align: center;"> Search Patient</h1>
 <table class="mainTable" align="center">
@@ -105,5 +107,6 @@ $(document).ready(function() {
 %>
 
 </form>
+
 </body>
 </html>
