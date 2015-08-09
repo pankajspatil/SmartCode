@@ -268,15 +268,15 @@ table {
 	}
 	
 	ConcurrentHashMap<String,String> prescription = (ConcurrentHashMap<String,String>) application.getAttribute("prescription");
-	%><table align="center" width="70%" border="1">
-		<tr>
+	%><table align="center" width="60%" border="1">
+		<tr align="center">
 			<td>Medicine Name</td>
-			<td>Usage</td>
+			<td>Dosage Duration</td>
 			<td>Dose Instruction</td>
 			<td>Operation</td>
 		</tr>
-		<tr>
-			<td><select id="combobox">
+		<tr align="center">
+			<td rowspan="2"><select id="combobox" style="width: 100%">
 					<option value="">Select one...</option>
 					<%
 					Iterator it = prescription.entrySet().iterator();
@@ -287,19 +287,84 @@ table {
 					}
 					%>
 			</select></td>
-			<td><input type="checkbox" name="morning" id="morning"
-				title="morning"> <input type="checkbox" name="morning"
-				id="afternoon" title="afternoon"> <input type="checkbox"
-				name="morning" id="evening" title="evening"></td>
-			<td><select id="regular">
-					<option value="EveryDay">EveryDay</option>
-					<option value="AlternateDay">Alternate Day</option>
-			</select> <select id="meal">
-					<option value="afterMeal">After Meal</option>
-					<option value="beforeMeal">Before Meal</option>
-			</select></td>
+			<td>
+				Every&nbsp;&nbsp;
+				<select id="days" name="days">
+					<% 
+					for(int i=1 ;i<32; i++){
+					%><option value="<%=i%>"><%=i %></option><%
+					}
+					%>
+				</select>
+				<select id="doseDuration">
+					<option value="day">Day</option>
+					<option value="week">Week</option>
+					<option value="month">Month</option>
+					<option value="year">Year</option>
+				</select>
+			</td>				
+			<td>
+				For&nbsp;
+				<select id="days" name="days">
+					<% 
+					for(int i=1 ;i<32; i++){
+					%><option value="<%=i%>"><%=i %></option><%
+					}
+					%>
+				</select>
+				<select id="doseTill">
+					<option value="day">Day</option>
+					<option value="week">Week</option>
+					<option value="month">Month</option>
+					<option value="year">Year</option>
+				</select>
+			</td>
+			<td>
+				<table>
+					<tr>
+						<td>Morning&nbsp;&nbsp;<input type="checkbox" id="morning" value="Morning"></td>
+						<td>Qty : <input type="text" name="morningQty" id="morningQty" value=""></td>
+						<td>
+							<select>
+								<option value="afterBreakfast">After BreakFast</option>
+								<option value="beforeBreakfast">Before BreakFast</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Afternoon<input type="checkbox" id="afternoon" value="afternoon"></td>
+						<td>Qty : <input type="text" name="afternoonQty" id="afternoonQty" value=""></td>
+						<td>
+							<select>
+								<option value="afterMeal">After Meal</option>
+								<option value="beforeMeal">Before Meal</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Evening&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evening" value="evening"></td>
+						<td>Qty : <input type="text" name="eveningQty" id="eveningQty" value=""></td>
+						<td>
+							<select>
+								<option value="afterBreakfast">After BreakFast</option>
+								<option value="beforeBreakfast">Before BreakFast</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="night" value="night"></td>
+						<td>Qty : <input type="text" name="nightQty" id="nightQty" value=""></td>
+						<td>
+							<select>
+								<option value="afterMeal">After Meal</option>
+								<option value="beforeMeal">Before Meal</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</td>
 			<td><input type="button" value="add" name="add" id="add"
-				onclick="addPrescription()"></td>
+				onclick="addPrescription()" align="middle"></td>
 		</tr>
 	</table>
 	<br />

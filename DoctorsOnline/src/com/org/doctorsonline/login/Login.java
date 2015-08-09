@@ -37,7 +37,10 @@ public class Login {
 			ex.printStackTrace();
 		} finally {
 			try {
-				conn.close();
+				if(conn !=null){
+					conn.close();
+				}
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

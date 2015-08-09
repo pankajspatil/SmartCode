@@ -9,7 +9,7 @@
 </head>
 <body>
 	<% String Contextpath = request.getContextPath();
-    ArrayList<String> menulist =(ArrayList<String>) session.getAttribute("menu");
+    ArrayList<String> menulist = session.getAttribute("menu") != null ? (ArrayList<String>) session.getAttribute("menu") : null;
 		if (menulist == null){
 			menulist = new ArrayList<String>();
 		}
@@ -19,7 +19,7 @@
 			<%
 				if (menulist.contains("Home")) {
 			%>
-			<li><a href='<%=Contextpath%>'><span>Home</span></a></li;>
+			<li><a href='<%=Contextpath%>'><span>Home</span></a></li>
 			<%
 				}
 			%>
