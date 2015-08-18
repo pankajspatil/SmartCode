@@ -38,15 +38,26 @@ public class SessionFilter implements Filter {
 	 */
 	@Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
-        HttpSession session = request.getSession(false);
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpSession session = request.getSession(false);
 
-        if (session == null || session.getAttribute("user") == null) {
-            response.sendRedirect(request.getContextPath() + "/pages/login.jsp"); // No logged-in user found, so redirect to login page.
-        } else {
-            chain.doFilter(req, res); // Logged-in user found, so just continue request.
-        }
+		String path = ((HttpServletRequest) request).getRequestURI();
+		if (path.startsWith("/specialpath")) {
+			chain.doFilter(request, response); // Just continue chain.
+		} else {
+
+			if (session == null || session.getAttribute("user") == null) {
+				response.sendRedirect(request.getContextPath()
+						+ "/pages/login.jsp"); // No logged-in user found, so
+												// redirect to login page.
+			} else {
+				chain.doFilter(req, res); // Logged-in user found, so just
+											// continue request.
+			}
+		}
+        
+
     }
 
 	/**
