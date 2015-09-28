@@ -9,6 +9,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ include file="/pages/generic/validateSession.jsp"%>
 <%@ include file="/pages/header/header.jsp"%>
+<%
+try{
+%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -197,6 +200,7 @@ table {
 </head>
 <body>
 	<br />
+	<form>
 	<h1 align="center">Patient New Visit</h1>
 	<%
 	String userId = request.getParameter("userId");
@@ -289,7 +293,7 @@ table {
 			</select></td>
 			<td>
 				Every&nbsp;&nbsp;
-				<select id="days" name="days">
+				<select id="fromDoseDays" name="fromDoseDays">
 					<% 
 					for(int i=1 ;i<32; i++){
 					%><option value="<%=i%>"><%=i %></option><%
@@ -305,7 +309,7 @@ table {
 			</td>				
 			<td>
 				For&nbsp;
-				<select id="days" name="days">
+				<select id="tillDosedays" name="tillDosedays">
 					<% 
 					for(int i=1 ;i<32; i++){
 					%><option value="<%=i%>"><%=i %></option><%
@@ -325,7 +329,7 @@ table {
 						<td>Morning&nbsp;&nbsp;<input type="checkbox" id="morning" value="Morning"></td>
 						<td>Qty : <input type="text" name="morningQty" id="morningQty" value=""></td>
 						<td>
-							<select>
+							<select id="breakfast">
 								<option value="afterBreakfast">After BreakFast</option>
 								<option value="beforeBreakfast">Before BreakFast</option>
 							</select>
@@ -335,7 +339,7 @@ table {
 						<td>Afternoon<input type="checkbox" id="afternoon" value="afternoon"></td>
 						<td>Qty : <input type="text" name="afternoonQty" id="afternoonQty" value=""></td>
 						<td>
-							<select>
+							<select id="meal">
 								<option value="afterMeal">After Meal</option>
 								<option value="beforeMeal">Before Meal</option>
 							</select>
@@ -345,9 +349,9 @@ table {
 						<td>Evening&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evening" value="evening"></td>
 						<td>Qty : <input type="text" name="eveningQty" id="eveningQty" value=""></td>
 						<td>
-							<select>
-								<option value="afterBreakfast">After BreakFast</option>
-								<option value="beforeBreakfast">Before BreakFast</option>
+							<select id="snacks">
+								<option value="afterSnack">After Snacks</option>
+								<option value="beforeSnack">Before Snacks</option>
 							</select>
 						</td>
 					</tr>
@@ -355,9 +359,9 @@ table {
 						<td>Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="night" value="night"></td>
 						<td>Qty : <input type="text" name="nightQty" id="nightQty" value=""></td>
 						<td>
-							<select>
-								<option value="afterMeal">After Meal</option>
-								<option value="beforeMeal">Before Meal</option>
+							<select id="dinner">
+								<option value="afterDinner">After Dinner</option>
+								<option value="beforeDinner">Before Dinner</option>
 							</select>
 						</td>
 					</tr>
@@ -388,7 +392,13 @@ table {
 	
 	
 	ConnectionsUtil.closeResultSet(userDataRS);
+}catch(Exception e){
+	System.out.println("Error ");
+	e.printStackTrace();
+	
+}
 	
 %>
+</form>
 </body>
 </html>
