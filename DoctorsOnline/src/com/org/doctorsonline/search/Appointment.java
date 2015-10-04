@@ -23,7 +23,7 @@ public class Appointment {
 	ResultSet rs = null;
 	ConnectionsUtil connectionsUtil = null;
 
-	public ArrayList<User> getDoctorList() {
+	public ArrayList<User> getUserList(String roleDesc) {
 		
 		ArrayList<User> doctorList= new ArrayList<User>();
 
@@ -33,8 +33,9 @@ public class Appointment {
 
 			String query = "SELECT * FROM usermaster um,"
 					+ "role_master rm where um.roleid = rm.role_id "
-					+ "	and rm.role_id = 2";
+					+ "	and rm.role_description = ?";
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
+			preparedStatement.setString(1, roleDesc);
 			rs = preparedStatement.executeQuery();	
 			
 			
