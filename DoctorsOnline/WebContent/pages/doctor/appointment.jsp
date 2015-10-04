@@ -1,12 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@page import="com.org.doctorsonline.search.Appointment"%>
+<%@page import="com.org.doctorsonline.model.User,java.util.ArrayList,java.util.Iterator"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Appointment</title>
 </head>
+<%@ include file="/pages/generic/validateSession.jsp"%>
+<%@ include file="/pages/header/header.jsp"%>
+<link rel="stylesheet" href="/DoctorsOnline/resources/css/jquery-ui.css">
+<link rel="stylesheet"
+	href="/DoctorsOnline/resources/css/jquery-ui.structure.css">
+<script src="/DoctorsOnline/resources/js/jquery.js"></script>
+<script src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
+<script type="text/javascript"
+	src="/DoctorsOnline/resources/js/search.js"></script>
+ <link rel="stylesheet" href="/DoctorsOnline/resources/css/style.css">
+ <%
+ Appointment appointment = new Appointment();
+ ArrayList<User> doctorList = appointment.getDoctorList();
+ 
+ 
+ %>
+
+
 <body>
+<form>
 	<section class="container">
 	<div id="q9" class="q required">
 		<a class="item_anchor" name="ItemAnchor9"></a> <span
@@ -53,7 +74,8 @@
 	<div id="q12" class="q required">
 		<a class="item_anchor" name="ItemAnchor12"></a> <label
 			class="question top_question" for="RESULT_RadioButton-12"><b
-			class="icon_required">*</b> Time</label> <select id="RESULT_RadioButton-12"
+			class="icon_required">*</b> Time</label> 
+	  <select id="RESULT_RadioButton-12"
 			name="RESULT_RadioButton-12" class="drop_down">
 			<option></option>
 			<option value="Radio-0">Morning</option>
@@ -67,28 +89,20 @@
 		<table class="inline_grid">
 			<tbody>
 				<tr>
-					<td><input type="radio" name="RESULT_RadioButton-13"
-						class="multiple_choice" id="RESULT_RadioButton-13_0"
-						value="Radio-0"><label for="RESULT_RadioButton-13_0">Dr.
-							Anderson</label></td>
-					<td><input type="radio" name="RESULT_RadioButton-13"
-						class="multiple_choice" id="RESULT_RadioButton-13_1"
-						value="Radio-1"><label for="RESULT_RadioButton-13_1">Dr.
-							Jones</label></td>
-					<td><input type="radio" name="RESULT_RadioButton-13"
-						class="multiple_choice" id="RESULT_RadioButton-13_2"
-						value="Radio-2"><label for="RESULT_RadioButton-13_2">Dr.
-							Patel</label></td>
-				</tr>
-				<tr>
-					<td><input type="radio" name="RESULT_RadioButton-13"
-						class="multiple_choice" id="RESULT_RadioButton-13_3"
-						value="Radio-3"><label for="RESULT_RadioButton-13_3">Dr.
-							Smith</label></td>
-					<td><input type="radio" name="RESULT_RadioButton-13"
-						class="multiple_choice" id="RESULT_RadioButton-13_4"
-						value="Radio-4"><label for="RESULT_RadioButton-13_4">no
-							preference</label></td>
+					<td>
+					<select id="appointDoctorId"
+							name="appointDoctorName" class="drop_down">
+						<option>Select Doctor</option>
+						<%
+					Iterator it = doctorList.iterator();
+					User user = null;
+				    while (it.hasNext()) {
+				       		user = (User)it.next();		        
+				     	%><option value="<%=user.getUserName() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
+					<%
+					}
+					%>						
+		</select></td>
 				</tr>
 			</tbody>
 		</table>
@@ -112,5 +126,6 @@
 
 	</div>
 	</section>
+	</form>
 </body>
 </html>

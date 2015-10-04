@@ -6,6 +6,7 @@ public class User {
 	private String firstName;
 	private String middleName;
 	private String lastName;
+	private String locality;
 	private String password;
 	private String dob;
 	private String uid;
@@ -92,6 +93,12 @@ public class User {
 	}
 	public void setRoleId(String roleId) {
 		this.roleId = roleId;
+	}
+	public String getLocality() {
+		return locality;
+	}
+	public void setLocality(String locality) {
+		this.locality = locality;
 	}
 	
 	

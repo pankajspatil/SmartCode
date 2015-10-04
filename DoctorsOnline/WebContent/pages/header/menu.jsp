@@ -38,9 +38,16 @@
 				}
 			%>
 			<%
-				if (menulist.contains("Logout")) {
+				if (menulist.contains("Registration")) {
 			%>
 			<li><a href='<%=Contextpath%>/pages/doctor/createUser.jsp'><span>Registration</span></a></li>
+			<%
+				}
+			%>
+			<%
+				if (menulist.contains("Appointment")) {
+			%>
+			<li><a href='<%=Contextpath%>/pages/doctor/appointment.jsp'><span>Appointment</span></a></li>
 			<%
 				}
 			%>
