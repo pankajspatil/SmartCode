@@ -3,6 +3,7 @@ package com.org.doctorsonline.model;
 public class User {
 
 	private String userName;
+	private String userId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -27,6 +28,12 @@ public class User {
 	}
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 	public String getMiddleName() {
 		return middleName;

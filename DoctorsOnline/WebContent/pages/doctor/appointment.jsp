@@ -204,7 +204,7 @@ table {
 
 
 <body>
-<form>
+<form method="post" action="./appointmentProcess.jsp">
 	<section class="container">
 	<div id="q9" class="q required">
 		<a class="item_anchor" name="ItemAnchor9"></a> <span
@@ -255,9 +255,9 @@ table {
 	  <select id="RESULT_RadioButton-12"
 			name="RESULT_RadioButton-12" class="drop_down">
 			<option></option>
-			<option value="Radio-0">Morning</option>
-			<option value="Radio-1">Afternoon</option>
-			<option value="Radio-2">Evening</option>
+			<option value="Morning">Morning</option>
+			<option value="Afternoon">Afternoon</option>
+			<option value="Evening">Evening</option>
 		</select>
 	</div>
 	<div id="q14" class="q">
@@ -275,7 +275,7 @@ table {
 					User user = null;
 				    while (it.hasNext()) {
 				       		user = (User)it.next();		        
-				     	%><option value="<%=user.getUserName() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
+				     	%><option value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
 					<%
 					}
 				    it = null;
@@ -299,8 +299,8 @@ table {
 				    user = null;
 				    while (it.hasNext()) {
 				       		user = (User)it.next();		        
-				     	%><option value="<%=user.getUserName() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
-								<%
+				     	%><option value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
+				<%
 					}
 				    it = null;
 					%>
@@ -316,8 +316,8 @@ table {
 		<a class="item_anchor" name="ItemAnchor14"></a> <label
 			class="question top_question" for="RESULT_TextArea-14"><b
 			class="icon_required">*</b> Please describe the reason for this visit</label>
-		<textarea name="RESULT_TextArea-14" class="text_field"
-			id="RESULT_TextArea-14" rows="7" cols="65"></textarea>
+		<textarea name="patientQuery" class="text_field"
+			id="patientQuery" rows="7" cols="65"></textarea>
 	</div>
 	<div class="clear"></div>
 
@@ -325,8 +325,9 @@ table {
 		<b class="icon_required">*</b> Indicates Response Required
 	</div>
 	<div class="clear"></div>
-
-	</div>
+	
+	<div><input type="submit" value="Submit" name="page1" id="page1"
+		align="middle"></div>
 	</section>
 	</form>
 </body>
