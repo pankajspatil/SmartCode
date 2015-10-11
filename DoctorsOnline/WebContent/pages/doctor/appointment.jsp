@@ -193,6 +193,17 @@ table {
     });
   });
   </script>
+  
+  <script type="text/javascript">
+  function openPage(){
+		alert('Need to Create the Pateint record. Before taking any appointment')
+		var formObj = $(document.createElement('form'));
+		formObj.attr("method", "post");
+        formObj.attr("action", "/DoctorsOnline/pages/doctor/createUser.jsp");
+        formObj.submit();
+	   
+	}
+  </script>
  <%
  Appointment appointment = new Appointment();
  ArrayList<User> doctorList = appointment.getUserList("Doctor");
@@ -209,16 +220,16 @@ table {
 	<div id="q9" class="q required">
 		<a class="item_anchor" name="ItemAnchor9"></a> <span
 			class="question top_question"><b class="icon_required">*</b>
-			Is this your first visit to our offices?</span>
+			Is this your first visit to our Clinic?</span>
 		<table class="inline_grid">
 			<tbody>
 				<tr>
-					<td><input type="radio" name="RESULT_RadioButton-9"
-						class="multiple_choice" id="RESULT_RadioButton-9_0"
-						value="Radio-0"><label for="RESULT_RadioButton-9_0">Yes</label></td>
-					<td><input type="radio" name="RESULT_RadioButton-9"
-						class="multiple_choice" id="RESULT_RadioButton-9_1"
-						value="Radio-1"><label for="RESULT_RadioButton-9_1">No</label></td>
+					<td><input type="radio" name="Yes"
+						class="patient_choice" id="patient_choice_0"
+						value="yes" onclick="openPage()"><label for="patient_choice_0">Yes</label></td>
+					<td><input type="radio" name="patient_choice_1"
+						class="patient_choice" id="patient_choice"
+						value="no"><label for="patient_choice_1">No</label></td>
 				</tr>
 			</tbody>
 		</table>
