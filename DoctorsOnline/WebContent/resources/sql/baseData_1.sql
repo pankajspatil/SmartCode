@@ -374,3 +374,54 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2015-08-16 11:33:12
+
+---- Tables Updated with default values ----
+
+truncate `citybazz_doctoronline`.`attribute_master`;
+
+update citybazz_doctoronline.medicine_brand set created_by = 1, is_active = 1, created_date = '2015-010-02 06:52:01';
+
+ALTER TABLE `citybazz_doctoronline`.`usermaster` 
+CHANGE COLUMN `isActive` `isActive` CHAR(1) NOT NULL DEFAULT '1' ;
+
+
+ALTER TABLE `citybazz_doctoronline`.`role_master` 
+CHANGE COLUMN `created_date` `created_date` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `is_active` `is_active` CHAR(1) NULL DEFAULT '1' ;
+
+ALTER TABLE `citybazz_doctoronline`.`attribute_master` 
+CHANGE COLUMN `attribute_key` `attribute_key` VARCHAR(45) NOT NULL ,
+CHANGE COLUMN `created_by` `created_by` VARCHAR(20) NOT NULL ,
+CHANGE COLUMN `created_date` `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `is_active` `is_active` CHAR(1) NOT NULL DEFAULT '1' ,
+ADD UNIQUE INDEX `attribute_key_UNIQUE` (`attribute_key` ASC);
+
+ALTER TABLE `citybazz_doctoronline`.`appointment_master` 
+DROP FOREIGN KEY `doctor_app_id`;
+ALTER TABLE `citybazz_doctoronline`.`appointment_master` 
+CHANGE COLUMN `doctor_id` `doctor_id` INT(11) NOT NULL ,
+CHANGE COLUMN `appointment_date` `appointment_date` DATE NOT NULL ,
+ADD COLUMN `created_by` INT(11) NOT NULL AFTER `appointment_Status`,
+ADD COLUMN `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `created_by`,
+ADD COLUMN `is_active` CHAR(1) NOT NULL DEFAULT '1' AFTER `created_date`;
+ALTER TABLE `citybazz_doctoronline`.`appointment_master` 
+ADD CONSTRAINT `doctor_app_id`
+  FOREIGN KEY (`doctor_id`)
+  REFERENCES `citybazz_doctoronline`.`usermaster` (`userId`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
+
+ALTER TABLE `citybazz_doctoronline`.`medicine_brand` 
+CHANGE COLUMN `created_by` `created_by` INT(11) NOT NULL ,
+CHANGE COLUMN `created_date` `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `is_active` `is_active` CHAR(1) NOT NULL DEFAULT '1' ;
+
+ALTER TABLE `citybazz_doctoronline`.`visit_history` 
+CHANGE COLUMN `created_by` `created_by` INT(11) NULL DEFAULT NULL ,
+CHANGE COLUMN `created_date` `created_date` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP ,
+CHANGE COLUMN `is_active` `is_active` CHAR(1) NULL DEFAULT '1' ;
+
+
+
+INSERT INTO `attribute_master` VALUES (1,'WEIGHT','weight of the user','1',NULL,'1'),(2,'HEIGHT','height of the user','1',NULL,'1'),(3,'AGE','age of the user','1',NULL,'1'),(4,'DOCTOR_QUALIFICATION','qualification of doctor','1',NULL,'1'),(5,'DOCTOR_REGISTRATION_NO','Registration no of doctor','1',NULL,'1'),(6,'ADDRESS_OF_DOCTOR','address of doctor','1',NULL,'1'),(7,'DOCTOR_CONTACT','Contact no of doctor in prescription','1',NULL,'1'),(8,'DATE_OF_PRESCRIPTION ','date of prescription','1',NULL,'1');
+
