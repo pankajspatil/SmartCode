@@ -50,7 +50,6 @@ function openPage(oepration, userId){
         alert('Visit History Called');
         break;      
     case 'vNew': 
-        alert('New Button Called');
         formObj.attr("action", "/DoctorsOnline/pages/doctor/newVisit.jsp");
         formObj.submit();
         break;

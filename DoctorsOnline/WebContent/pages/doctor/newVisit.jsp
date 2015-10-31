@@ -18,189 +18,19 @@ try{
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/jquery-ui.css">
 <link rel="stylesheet"
 	href="/DoctorsOnline/resources/css/jquery-ui.structure.css">
+<link rel="stylesheet"
+	href="/DoctorsOnline/resources/css/visit.css">
 <script src="/DoctorsOnline/resources/js/jquery.js"></script>
 <script src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
 <script type="text/javascript"
 	src="/DoctorsOnline/resources/js/search.js"></script>
+<script type="text/javascript"
+	src="/DoctorsOnline/resources/js/visit.js"></script>
 
-<style>
-.custom-combobox {
-	position: relative;
-	display: inline-block;
-}
-
-.custom-combobox-toggle {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	margin-left: -1px;
-	padding: 0;
-}
-
-.custom-combobox-input {
-	margin: 0;
-	padding: 5px 10px;
-}
-
-.ui-autocomplete {
-	max-height: 300px;
-	overflow-y: auto;
-	/* prevent horizontal scrollbar */
-	overflow-x: hidden;
-}
-/* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-* html .ui-autocomplete {
-	height: 300px;
-}
-
-table {
-	border-collapse: collapse;
-}
-</style>
-<script>
-  (function( $ ) {
-    $.widget( "custom.combobox", {
-      _create: function() {
-        this.wrapper = $( "<span>" )
-          .addClass( "custom-combobox" )
-          .insertAfter( this.element );
- 
-        this.element.hide();
-        this._createAutocomplete();
-        this._createShowAllButton();
-      },
- 
-      _createAutocomplete: function() {
-        var selected = this.element.children( ":selected" ),
-          value = selected.val() ? selected.text() : "";
- 
-        this.input = $( "<input>" )
-          .appendTo( this.wrapper )
-          .val( value )
-          .attr( "title", "" )
-          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-          .autocomplete({
-            delay: 0,
-            minLength: 0,
-            source: $.proxy( this, "_source" )
-          })
-          .tooltip({
-            tooltipClass: "ui-state-highlight"
-          });
- 
-        this._on( this.input, {
-          autocompleteselect: function( event, ui ) {
-            ui.item.option.selected = true;
-            this._trigger( "select", event, {
-              item: ui.item.option
-            });
-          },
- 
-          autocompletechange: "_removeIfInvalid"
-        });
-      },
- 
-      _createShowAllButton: function() {
-        var input = this.input,
-          wasOpen = false;
- 
-        $( "<a>" )
-          .attr( "tabIndex", -1 )
-          .attr( "title", "Show All Items" )
-          .tooltip()
-          .appendTo( this.wrapper )
-          .button({
-            icons: {
-              primary: "ui-icon-triangle-1-s"
-            },
-            text: false
-          })
-          .removeClass( "ui-corner-all" )
-          .addClass( "custom-combobox-toggle ui-corner-right" )
-          .mousedown(function() {
-            wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-          })
-          .click(function() {
-            input.focus();
- 
-            // Close if already visible
-            if ( wasOpen ) {
-              return;
-            }
- 
-            // Pass empty string as value to search for, displaying all results
-            input.autocomplete( "search", "" );
-          });
-      },
- 
-      _source: function( request, response ) {
-        var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-        response( this.element.children( "option" ).map(function() {
-          var text = $( this ).text();
-          if ( this.value && ( !request.term || matcher.test(text) ) )
-            return {
-              label: text,
-              value: text,
-              option: this
-            };
-        }) );
-      },
- 
-      _removeIfInvalid: function( event, ui ) {
- 
-        // Selected an item, nothing to do
-        if ( ui.item ) {
-          return;
-        }
- 
-        // Search for a match (case-insensitive)
-        var value = this.input.val(),
-          valueLowerCase = value.toLowerCase(),
-          valid = false;
-        this.element.children( "option" ).each(function() {
-          if ( $( this ).text().toLowerCase() === valueLowerCase ) {
-            this.selected = valid = true;
-            return false;
-          }
-        });
- 
-        // Found a match, nothing to do
-        if ( valid ) {
-          return;
-        }
- 
-        // Remove invalid value
-        this.input
-          .val( "" )
-          .attr( "title", value + " didn't match any item" )
-          .tooltip( "open" );
-        this.element.val( "" );
-        this._delay(function() {
-          this.input.tooltip( "close" ).attr( "title", "" );
-        }, 2500 );
-        this.input.autocomplete( "instance" ).term = "";
-      },
- 
-      _destroy: function() {
-        this.wrapper.remove();
-        this.element.show();
-      }
-    });
-  })( jQuery );
- 
-  $(function() {
-    $( "#combobox" ).combobox();
-    $( "#toggle" ).click(function() {
-      $( "#combobox" ).toggle();
-    });
-  });
-  </script>
 </head>
 <body>
 	<br />
-	<form>
+	<form method="post" name="form1" >
 	<h1 align="center">Patient New Visit</h1>
 	<%
 	String userId = request.getParameter("userId");
@@ -272,12 +102,12 @@ table {
 	}
 	
 	ConcurrentHashMap<String,String> prescription = (ConcurrentHashMap<String,String>) application.getAttribute("prescription");
-	%><table align="center" width="60%" border="1">
+	%><table align="center" width="80%" border="1">
 		<tr align="center">
 			<td>Medicine Name</td>
 			<td>Dosage Duration</td>
 			<td>Dose Instruction</td>
-			<td>Operation</td>
+			<td colspan="2">Operation</td>
 		</tr>
 		<tr align="center">
 			<td rowspan="2"><select id="combobox" style="width: 100%">
@@ -293,7 +123,7 @@ table {
 			</select></td>
 			<td>
 				Every&nbsp;&nbsp;
-				<select id="fromDoseDays" name="fromDoseDays">
+				<select id="fromDoseDays" name="fromDoseDays" onchange="updateDuration(this, 'doseDuration')">
 					<% 
 					for(int i=1 ;i<32; i++){
 					%><option value="<%=i%>"><%=i %></option><%
@@ -309,7 +139,7 @@ table {
 			</td>				
 			<td>
 				For&nbsp;
-				<select id="tillDosedays" name="tillDosedays">
+				<select id="tillDosedays" name="tillDosedays" onchange="updateDuration(this, 'doseDuration')">
 					<% 
 					for(int i=1 ;i<32; i++){
 					%><option value="<%=i%>"><%=i %></option><%
