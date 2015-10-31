@@ -103,7 +103,7 @@ try{
 	
 	ConcurrentHashMap<String,String> prescription = (ConcurrentHashMap<String,String>) application.getAttribute("prescription");
 	%><table align="center" width="80%" border="1">
-		<tr align="center">
+		<tr align="center"  class='mainBGnFont'>
 			<td>Medicine Name</td>
 			<td>Dosage Duration</td>
 			<td>Dose Instruction</td>
@@ -139,7 +139,7 @@ try{
 			</td>				
 			<td>
 				For&nbsp;
-				<select id="tillDosedays" name="tillDosedays" onchange="updateDuration(this, 'doseDuration')">
+				<select id="tillDosedays" name="tillDosedays" onchange="updateDuration(this, 'doseTill')">
 					<% 
 					for(int i=1 ;i<32; i++){
 					%><option value="<%=i%>"><%=i %></option><%
@@ -198,26 +198,25 @@ try{
 				</table>
 			</td>
 			<td><input type="button" value="add" name="add" id="add"
-				onclick="addPrescription()" align="middle"></td>
+				onclick="addPrescription()" align="middle" class="mainBGnFont"></td>
 		</tr>
 	</table>
 	<br />
 	<br />
 	<table width="50%" border="1" name="addedPrescription"
 		id="addedPrescription" align="center">
-		<tr>
-			<td>Prescription Name</td>
-			<td>Dose</td>
-			<td>Usage</td>
-			<td>Action</td>
+		<tr class="mainBGnFont">
+			<td width="25%" align="center">Prescription Name</td>
+			<td align="center">Dose</td>
+			<td align="center">Usage</td>
+			<td align="center">Action</td>
 		</tr>
 		<tr id="noData">
 			<td colspan="4" align="center">No Prescription Added</td>
 		</tr>
 	</table>
 	<br />
-	<input type="submit" value="Submit" name="page1" id="page1"
-		align="middle">
+	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont"></center>
 	<%
 	
 	

@@ -23,3 +23,8 @@ tr td {
 .mainTR{
 	text-align: center;
 } */
+
+.mainBGnFont{
+	background-color: #2d97af;
+	color: white;
+}
