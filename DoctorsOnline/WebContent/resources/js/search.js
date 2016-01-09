@@ -70,18 +70,6 @@ function addPrescription(){
 	
 	var tillDosedays = $('#tillDosedays').find('option:selected').text();
 	
-	var morning ="";
-	var morningQty ="";
-	var breakfast="";
-	
-	if ($('#morning').is(":checked")){
-		morning = $('#morning').val();
-		morningQty = $('#morningQty').val();
-		
-	}
-	
-	var breakfast = $('#breakfast').find('option:selected').text();
-	
 	
 	var tableObj = $('#addedPrescription');
 	$('#noData').remove();
@@ -96,18 +84,30 @@ function addPrescription(){
 	  });
 	
 	if(!isPresesnt){
+		
+	var morning ="";
+	var morningQty ="";
+	var breakfast="";
+	
+	if ($('#morning').is(":checked")){
+		morning = $('#morning').val();
+		morningQty = $('#morningQty').val();
+		
+	}
+	
+	var breakfast = $('#breakfast').find('option:selected').text();
 	
 	var row = "<tr>" +
 				"<td>" +
 					"<input type='hidden' name='prescriptionId' value='"+prescriptionId+"'>" + 
 					prescriptionName +
 				" </td>" +
-				"<td>" +fromDoseDays +" "+doseDuration+" "+" for "+tillDosedays +" "+doseTill +
+				"<td> Every" +fromDoseDays +" "+doseDuration+" "+" for "+tillDosedays +" "+doseTill +
 				"</td>" +
 				"<td>"+" in " + morning +", "+morningQty+ " "
 				+breakfast+
 				"</td>" +
-				"<td><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
+				"<td align='center'><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
 			"</tr>";
 	
 	tableObj.append(row);

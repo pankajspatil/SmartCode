@@ -17,7 +17,7 @@
 	href="<%=request.getContextPath()%>/resources/css/menu.css">
 </head>
 <body>
-	<div style="border: solid; border-width: 1px; background-color: #2d97af;">
+	<div style="border: solid; border-width: 1px; background-color: #3391E7;">
 		<img src="/DoctorsOnline/resources/images/header/mainLogo.png" style="height: 140px; width: 181px; float: left;">
 		<h1 style="font-size:57px; text-align: center; color: white; font: sans-serif;">Doctor's Online</h1>
 		

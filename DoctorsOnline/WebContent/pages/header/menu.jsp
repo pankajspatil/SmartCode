@@ -9,11 +9,8 @@
 </head>
 <body>
 	<% String Contextpath = request.getContextPath();
-    ArrayList<String> menulist = session.getAttribute("menu") != null ? (ArrayList<String>) session.getAttribute("menu") : null;
-		if (menulist == null){
-			menulist = new ArrayList<String>();
-		}
-%>
+    	ArrayList<String> menulist = session.getAttribute("menu") != null ? (ArrayList<String>) session.getAttribute("menu") : new ArrayList<String>();
+	%>
 	<div id='cssmenu'>
 		<ul>
 			<%

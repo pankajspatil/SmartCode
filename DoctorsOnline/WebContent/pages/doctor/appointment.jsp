@@ -1,25 +1,30 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@page import="com.org.doctorsonline.search.Appointment"%>
-<%@page import="com.org.doctorsonline.model.User,java.util.ArrayList,java.util.Iterator"%>
+<%@page import="com.org.doctorsonline.model.User"%>
+<%@page import="java.util.Iterator"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+ <%@ include file="/pages/generic/validateSession.jsp"%>
+ <%@ include file="/pages/header/header.jsp"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Appointment</title>
-</head>
-<%@ include file="/pages/generic/validateSession.jsp"%>
-<%@ include file="/pages/header/header.jsp"%>
-<link rel="stylesheet" href="/DoctorsOnline/resources/css/jquery-ui.css">
+<script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.js"></script>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.datetimepicker.full.js"></script>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
+
+<link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.css"></link>
+<link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.structure.css"></link>
+<link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery.datetimepicker.css"></link>
+
 <link rel="stylesheet"
-	href="/DoctorsOnline/resources/css/jquery-ui.structure.css">
-<script src="/DoctorsOnline/resources/js/jquery.js"></script>
-<script src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
-<script type="text/javascript"
-	src="/DoctorsOnline/resources/js/search.js"></script>
- <link rel="stylesheet" href="/DoctorsOnline/resources/css/style.css">
- 
- <style>
+	href="/DoctorsOnline/resources/css/jquery-ui.structure.css" />
+
+<style>
+</style>
+	
+<style>
 .custom-combobox {
 	position: relative;
 	display: inline-block;
@@ -72,11 +77,14 @@ table {
         var selected = this.element.children( ":selected" ),
           value = selected.val() ? selected.text() : "";
  
+          debugger;
+          
         this.input = $( "<input>" )
           .appendTo( this.wrapper )
           .val( value )
           .attr( "title", "" )
-          .addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
+          .attr( "width", "100%" )
+          //.addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
           .autocomplete({
             delay: 0,
             minLength: 0,
@@ -103,7 +111,7 @@ table {
           wasOpen = false;
  
         $( "<a>" )
-          .attr( "tabIndex", -1 )
+          /* .attr( "tabIndex", -1 )
           .attr( "title", "Show All Items" )
           .tooltip()
           .appendTo( this.wrapper )
@@ -114,10 +122,10 @@ table {
             text: false
           })
           .removeClass( "ui-corner-all" )
-          .addClass( "custom-combobox-toggle ui-corner-right" )
+          .addClass( "custom-combobox-toggle ui-corner-right" ) 
           .mousedown(function() {
             wasOpen = input.autocomplete( "widget" ).is( ":visible" );
-          })
+          })*/
           .click(function() {
             input.focus();
  
@@ -187,14 +195,19 @@ table {
   })( jQuery );
  
   $(function() {
-    $( "#combobox" ).combobox();
+    $( "#physician" ).combobox();
     $( "#toggle" ).click(function() {
-      $( "#combobox" ).toggle();
+      $( "#physician" ).toggle();
     });
+    
+    $( "#patientName" ).combobox();
+    $( "#toggle" ).click(function() {
+      $( "#patientName" ).toggle();
+    });
+    
   });
   </script>
-  
-  <script type="text/javascript">
+<script type="text/javascript">
   function openPage(){
 		alert('Need to Create the Pateint record. Before taking any appointment')
 		var formObj = $(document.createElement('form'));
@@ -204,84 +217,63 @@ table {
 	   
 	}
   </script>
- <%
+  <style>
+  	.mainTable{
+  		text-align: left; !important;
+  		font: 100%;
+  		font-size: larger;
+  		width: 40%;
+  	}
+  	
+  	
+  	.ui-autocomplete-input
+	{ 
+    	width: 100%;
+	}
+  	select{
+  		width: 100%;
+  	  	}
+  	input[type=text]{
+		width: 100%;
+	}
+	td{
+		padding: 1%;
+	}
+input, select{
+outline: 5px solid #eff4f7;
+}
+  </style>
+</head>
+<body>
+<%
  Appointment appointment = new Appointment();
  ArrayList<User> doctorList = appointment.getUserList("Doctor");
  ArrayList<User> patientList = appointment.getUserList("Patient"); 
  
  %>
+<form method="post" action="" style="text-align: center;">
+<h1 align="center">Patient Appointment</h1>
 
-
-
-
-<body>
-<form method="post" action="./appointmentProcess.jsp">
-	<section class="container">
-	<div id="q9" class="q required">
-		<a class="item_anchor" name="ItemAnchor9"></a> <span
-			class="question top_question"><b class="icon_required">*</b>
-			Is this your first visit to our Clinic?</span>
-		<table class="inline_grid">
-			<tbody>
-				<tr>
-					<td><input type="radio" name="Yes"
-						class="patient_choice" id="patient_choice_0"
-						value="yes" onclick="openPage()"><label for="patient_choice_0">Yes</label></td>
-					<td><input type="radio" name="patient_choice_1"
-						class="patient_choice" id="patient_choice"
-						value="no"><label for="patient_choice_1">No</label></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<div class="clear"></div>
-
-	<div id="q21" class="q full_width">
-		<a class="item_anchor" name="ItemAnchor10"></a>
-		<div class="segment_header" style="width: auto; text-align: Left;">
-			<h1 style="font-size: 18px;">Appointment Information</h1>
-		</div>
-	</div>
-
-	<div class="clear"></div>
-
-	<div id="q11" class="q required">
-		<a class="item_anchor" name="ItemAnchor11"></a> <label
-			class="question top_question" for="RESULT_TextField-11"><b
-			class="icon_required">*</b> Date</label> <input type="text"
-			name="RESULT_TextField-11"
-			class="text_field calendar_field hasDatepicker"
-			id="RESULT_TextField-11" size="10" maxlength="10" datemax=""
-			datemin="" value="" date="mm/dd/yy"><img
-			class="popup_button inline_button"
-			src="/images/icons/formIcons/calendar.gif" alt="calendar"
-			style="vertical-align: top;">
-
-	</div>
-	<div id="q12" class="q required">
-		<a class="item_anchor" name="ItemAnchor12"></a> <label
-			class="question top_question" for="RESULT_RadioButton-12"><b
-			class="icon_required">*</b> Time</label> 
-	  <select id="RESULT_RadioButton-12"
-			name="RESULT_RadioButton-12" class="drop_down">
-			<option></option>
-			<option value="Morning">Morning</option>
-			<option value="Afternoon">Afternoon</option>
-			<option value="Evening">Evening</option>
-		</select>
-	</div>
-	<div id="q14" class="q">
-		<a class="item_anchor" name="ItemAnchor13"></a> <span
-			class="question top_question">Preferred Physician</span>
-		<table class="inline_grid">
-			<tbody>
-				<tr>
-					<td>
-					<select id="appointDoctorId"
-							name="appointDoctorName" class="drop_down">
-						<option>Select Doctor</option>
-						<%
+<table class="mainTable" align="center">
+	<tr>
+		<td>Is this your first visit to our Clinic?</td>
+		<td>
+			<input type="radio" id="isVisitY" value="Y" name="isVisit" onclick="fnOpenNormalDialog(this)"> Y
+			<input type="radio" id="isVisitN" value="N" name="isVisit"> N
+		</td>
+	</tr>
+	<tr>
+		<td colspan="2" valign="bottom" align="center"><h3>Appointment Information</h3></td>
+	</tr>
+	<tr>
+		<td>Appointment Slot : </td>
+		<td><input type="text" name="appSlot" id="appSlot" value="" ></td>
+	</tr>
+	<tr>
+		<td>Preferred Physician : </td>
+		<td>
+			<select name="physician" id="physician" class="physician autocomplete">
+			<%
 					Iterator it = doctorList.iterator();
 					User user = null;
 				    while (it.hasNext()) {
@@ -291,22 +283,17 @@ table {
 					}
 				    it = null;
 					%>						
-		</select></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	<div id="q14_1" class="q">
-		<a class="item_anchor" name="ItemAnchor13"></a> <span
-			class="question top_question">Patient Name</span>
-		<table class="inline_grid">
-			<tbody>
-				<tr>
-						<td><select id="combobox" name="appointPatientName"
-							class="drop_down">
-								<option></option>
-								<%
-					it = patientList.iterator();
+		</select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Patient Name : 
+		</td>
+		<td>
+			<select name="patientName" id="patientName">
+				<%	
+			it = patientList.iterator();
 				    user = null;
 				    while (it.hasNext()) {
 				       		user = (User)it.next();		        
@@ -315,31 +302,22 @@ table {
 					}
 				    it = null;
 					%>
-						</select> </td>
-					</tr>
-			</tbody>
-		</table>
-	</div>
-
-	<div class="clear"></div>
-
-	<div id="q15" class="q required">
-		<a class="item_anchor" name="ItemAnchor14"></a> <label
-			class="question top_question" for="RESULT_TextArea-14"><b
-			class="icon_required">*</b> Please describe the reason for this visit</label>
-		<textarea name="patientQuery" class="text_field"
-			id="patientQuery" rows="7" cols="65"></textarea>
-	</div>
-	<div class="clear"></div>
-
-	<div class="q required">
-		<b class="icon_required">*</b> Indicates Response Required
-	</div>
-	<div class="clear"></div>
-	
-	<div><input type="submit" value="Submit" name="page1" id="page1"
-		align="middle"></div>
-	</section>
-	</form>
+						</select>
+			</select>
+		</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2">&nbsp;</td>
+	</tr>
+	<tr>
+		<td align="center" colspan="2"><input type="submit" name="form1" value="Submit" id="form1"></td>
+	</tr>
+</table>
+<div id="dialog-confirm"></div>
+</form>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/appointment.js"></script>
 </body>
 </html>
