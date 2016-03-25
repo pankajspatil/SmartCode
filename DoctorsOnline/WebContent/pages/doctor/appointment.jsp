@@ -1,3 +1,8 @@
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Map"%>
+<%@page import="java.util.LinkedHashMap"%>
+<%@page import="java.util.Arrays"%>
 <%@page import="com.org.doctorsonline.search.Appointment"%>
 <%@page import="com.org.doctorsonline.model.User"%>
 <%@page import="java.util.Iterator"%>
@@ -13,6 +18,7 @@
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.js"></script>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery.datetimepicker.full.js"></script>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/jquery-ui.js"></script>
+<script type="text/javascript" src="/DoctorsOnline/resources/js/general.js"></script>
 
 <link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.css"></link>
 <link rel="stylesheet" type="text/css" href="/DoctorsOnline/resources/css/jquery-ui.structure.css"></link>
@@ -59,6 +65,9 @@
 table {
 	border-collapse: collapse;
 }
+#comments{
+	width: 100%;
+}
 </style>
 <script>
   (function( $ ) {
@@ -77,8 +86,6 @@ table {
         var selected = this.element.children( ":selected" ),
           value = selected.val() ? selected.text() : "";
  
-          debugger;
-          
         this.input = $( "<input>" )
           .appendTo( this.wrapper )
           .val( value )
@@ -195,10 +202,16 @@ table {
   })( jQuery );
  
   $(function() {
-    $( "#physician" ).combobox();
+    $( "#physician" ).combobox({   
+    	select: function( event, ui ) {
+    		updateAppnSlots();
+    	} 
+    });
+    
     $( "#toggle" ).click(function() {
       $( "#physician" ).toggle();
     });
+       
     
     $( "#patientName" ).combobox();
     $( "#toggle" ).click(function() {
@@ -248,9 +261,49 @@ outline: 5px solid #eff4f7;
 <%
  Appointment appointment = new Appointment();
  ArrayList<User> doctorList = appointment.getUserList("Doctor");
- ArrayList<User> patientList = appointment.getUserList("Patient"); 
+ ArrayList<User> patientList = appointment.getUserList("Patient");
+ 
+ String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+ //out.println("today==>"+ today);
+ 
+ LinkedHashMap<String, String> timings = appointment.getTimings(today);
+ //out.println(timings);
+ ArrayList<String> timingsList = new ArrayList<String>();
+ 
+
+for(Map.Entry<String,String> map : timings.entrySet()){
+	timingsList.add("'" + map.getKey() + "'");
+}
+//out.println(timingsList);
+ 
+ String appntSlot = request.getParameter("appSlot") == null ? "" : request.getParameter("appSlot");
+ Integer returnValue = null;
+ String message = null;
+ 
+// out.println(appntSlot);
+ 
+ String doctorId = request.getParameter("physician");
+ String patientId = request.getParameter("patientName");
+ String comments = request.getParameter("comments") == null ? "" : request.getParameter("comments");
+ 
+ String[] timeArray = null;
+ 
+ 
+ 
+ if(request.getParameter("form1") != null){
+	 	 String appnDate = appntSlot.split(" ")[0];
+		 String timeId = timings.get(appntSlot.split(" ")[1]);
+	     returnValue = appointment.createAppointment(doctorId, patientId, appnDate, timeId, session.getAttribute("userId").toString(), comments);
+	     message = returnValue == 1 ? "Sorry selected slot is not available." : "Appointment is booked.";
+ }
+ 
+ 
  
  %>
+ <script type="text/javascript">
+ var timingsList = <%=timingsList%>;
+ </script>
+ 
 <form method="post" action="" style="text-align: center;">
 <h1 align="center">Patient Appointment</h1>
 
@@ -266,19 +319,16 @@ outline: 5px solid #eff4f7;
 		<td colspan="2" valign="bottom" align="center"><h3>Appointment Information</h3></td>
 	</tr>
 	<tr>
-		<td>Appointment Slot : </td>
-		<td><input type="text" name="appSlot" id="appSlot" value="" ></td>
-	</tr>
-	<tr>
 		<td>Preferred Physician : </td>
 		<td>
 			<select name="physician" id="physician" class="physician autocomplete">
+			<option value="-1"></option>
 			<%
 					Iterator it = doctorList.iterator();
 					User user = null;
 				    while (it.hasNext()) {
 				       		user = (User)it.next();		        
-				     	%><option value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
+				     	%><option <%=user.getUserId().equals(doctorId) ? "selected = selected" : "" %> value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
 					<%
 					}
 				    it = null;
@@ -292,31 +342,58 @@ outline: 5px solid #eff4f7;
 		</td>
 		<td>
 			<select name="patientName" id="patientName">
+			<option value=""></option>
 				<%	
 			it = patientList.iterator();
 				    user = null;
 				    while (it.hasNext()) {
-				       		user = (User)it.next();		        
-				     	%><option value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
+				       		user = (User)it.next();	
+				       		out.println(patientId + "==>" + user.getUserId());
+				     	%><option <%=user.getUserId().equals(patientId) ? "selected = selected" : "" %> value="<%=user.getUserId() %>"><%=user.getFirstName() + " "+user.getLastName() %></option>
 				<%
 					}
 				    it = null;
 					%>
 						</select>
-			</select>
 		</td>
 	</tr>
 	<tr>
-		<td align="center" colspan="2">&nbsp;</td>
+		<td>Appointment Slot : </td>
+		<td><input type="text" name="appSlot" id="appSlot" value="<%=appntSlot %>" autocomplete="off""></td>
 	</tr>
+	<tr>
+		<td>Comments : </td>
+		<td><textarea rows="8" cols="2" id="comments" name="comments"><%=comments %></textarea> </td>
+	</tr>
+
 	<tr>
 		<td align="center" colspan="2">&nbsp;</td>
 	</tr>
 	<tr>
-		<td align="center" colspan="2"><input type="submit" name="form1" value="Submit" id="form1"></td>
+		<td align="center" colspan="2">&nbsp;</td>
 	</tr>
+	<tr>
+		<td align="center" colspan="2"><input <%=((returnValue == null || returnValue == 1) ? "" : "disabled='disabled'") %> type="submit" name="form1" value="Submit" id="form1"></td>
+	</tr>
+	
 </table>
 <div id="dialog-confirm"></div>
+<%
+if(message != null){
+	%>
+	<script type="text/javascript">
+
+$("#dialog-confirm").html('<%=message%>');
+
+$("#dialog-confirm").dialog();
+
+</script>
+	<%
+}
+
+%>
+
+
 </form>
 <script type="text/javascript" src="/DoctorsOnline/resources/js/appointment.js"></script>
 </body>

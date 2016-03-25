@@ -9,6 +9,8 @@
 <script src="/DoctorsOnline/resources/js/jquery-latest.min.js"
 	type="text/javascript"></script>
 <script src="/DoctorsOnline/resources/js/menu.js"></script>
+<script src="/DoctorsOnline/resources/js/Map.js"></script>
+<script src="/DoctorsOnline/resources/js/constants.js"></script>
 
 <title>Doctor's Online</title>
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/generic.css">
@@ -23,6 +25,9 @@
 		
 	</div>
 	<%@ include file="/pages/header/menu.jsp"%>
+<script type="text/javascript">
+	var configObj = <%=getServletContext().getAttribute("config")%>;
+</script>
 </body>
 </html>
 

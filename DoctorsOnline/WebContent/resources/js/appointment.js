@@ -36,18 +36,74 @@ function callback(value) {
     }
 }
 
-$('#appSlot').datetimepicker({
-	dayOfWeekStart : 1,
-	lang:'en',
-	disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
-	startDate:	$.datepicker.formatDate('yy/mm/dd', new Date()),
-	minDate: 0,
-	step:15,
-	allowTimes:['9.00'],
-	weekends:['2016/01/09']
-	});
+var dateTimeOptions = {
+		dayOfWeekStart : 1,
+		lang:'en',
+		disabledDates:['1986/01/08','1986/01/09','1986/01/10'],
+		startDate:	$.datepicker.formatDate('yy/mm/dd', new Date()),
+		minDate: 0,
+		step:15,
+		allowTimes:timingsList,
+		weekends:['2016/01/09'],
+		closeOnDateSelect:false,
+		//closeOnWithoutClick:false,
+		format:'Y-m-d H:i',
+		onSelectDate:function(ct,$i){
+			var dt = new Date(ct);
+			var selectedDate = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
+			var response = getTimings(selectedDate);
+			dateTimeOptions.allowTimes = response.split(',');
+			$('#appSlot').datetimepicker(dateTimeOptions);
+		},
+		onClose:function(ct,$i){
+			var dateObj = new Date(ct);
+			if($('#appSlot').val() != '' && dateObj.getHours() == 0 && dateObj.getMinutes() == 0){
+				//$('#appSlot').val('');
+				return false;
+			}
+			
+		},
+		onShow:function(ct,$i){
+			
+			if(configObj.TIMINGS_ON_DOCTORS){
+				if($('#physician').val() == ''){
+					alert('Please select physician first.');
+					return false;
+				}
+			}				
+		}
+			
+};
+
+$('#appSlot').datetimepicker(dateTimeOptions);
 	//$('#appSlot').datetimepicker({value:'2015/04/15 05:03',step:10});
+
+function getTimings(selectedDate){
+	var timings = null;
+	var paramMap = new Map();
 	
+	if(selectedDate){
+		paramMap.put(SELECTED_DATE, selectedDate);
+	}
+	paramMap.put(ACTION, "getTimings");
 	
+	timings = doAjaxCall(paramMap);
+	return timings;
+}
 	
+function updateAppnSlots(ui){
+	if(configObj.TIMINGS_ON_DOCTORS){
+			
+		var dt = new Date();
+		var selectedDate = dt.getFullYear() + '-' + (dt.getMonth() + 1) + '-' + dt.getDate();
+		var response = getTimings(selectedDate);
+		dateTimeOptions.allowTimes = response.split(',');
+		$('#appSlot').datetimepicker(dateTimeOptions);
+		$('#appSlot').val('');
+		//$('#appSlot').focus();
+		/*if($('#appSlot').val('') != ''){
+			$('#appSlot').datetimepicker('show');
+		}*/		
+	}
+}
 	

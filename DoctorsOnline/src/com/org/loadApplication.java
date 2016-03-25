@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.simple.JSONObject;
+
+import com.org.doctorsonline.generic.Utils;
 import com.org.doctorsonline.search.Search;
 
 /**
@@ -48,8 +51,10 @@ public class loadApplication extends HttpServlet {
 		
 		context.setAttribute("prescription", prescription);
 		System.out.println("Loading Prescription data");
-
-
+		
+		Utils utils = new Utils();
+		JSONObject configObj = utils.getConfig();
+		context.setAttribute("config", configObj);
 	  }
        
     /**

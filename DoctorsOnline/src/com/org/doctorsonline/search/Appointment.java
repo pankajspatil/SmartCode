@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.logging.Logger;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
 import com.org.doctorsonline.generic.Utils;
@@ -25,7 +27,7 @@ public class Appointment {
 	ResultSet rs = null;
 	ConnectionsUtil connectionsUtil = null;
 
-	public ArrayList<User> getUserList(String roleDesc) {
+public ArrayList<User> getUserList(String roleDesc) {
 		
 		ArrayList<User> doctorList= new ArrayList<User>();
 
@@ -111,5 +113,139 @@ public void createAppointment(Appointment_Master appointment_Master){
 		conn = null;
 
 	}
+
+public ArrayList<User> getAppointmentTimings(String doctorId) {
+	
+	ArrayList<User> doctorList= new ArrayList<User>();
+
+	try {
+		connectionsUtil = new ConnectionsUtil();
+		conn = connectionsUtil.getConnection();
+
+		String query = "SELECT * FROM usermaster um,"
+				+ "role_master rm where um.roleid = rm.role_id "
+				+ "	and rm.role_description = ?";
+		
+		query += "select t.* from time_master t left join (select time_id from appointment_timings where doctor_id = 1) "+
+				"atm on t.time_id = atm.time_id where atm.doctor_id = 1;  ";
+		
+		
+		PreparedStatement preparedStatement = conn.prepareStatement(query);
+		preparedStatement.setString(1, doctorId);
+		rs = preparedStatement.executeQuery();	
+		
+		
+		User user = null;
+		while (rs.next()) {
+			user = new User();
+			user.setUserName(rs.getString("userName"));
+			user.setUserId(rs.getString("userId"));
+			user.setFirstName(rs.getString("firstName"));
+			user.setLastName(rs.getString("lastName"));
+			user.setLocality(rs.getString("locality"));
+			user.setPhone(rs.getString("phone"));
+			doctorList.add(user);
+		}
+
+	} catch (Exception ex) {
+		ex.printStackTrace();
+	} finally {
+		try {
+			if(conn !=null){
+				conn.close();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	rs = null;
+	conn = null;
+
+	return doctorList;
+}
+
+public LinkedHashMap<String, String> getTimings(String selectedDate){
+	
+	LinkedHashMap<String, String> timingsMap = new LinkedHashMap<String, String>();
+	
+	try{
+		connectionsUtil = new ConnectionsUtil();
+		conn = connectionsUtil.getConnection();
+		
+		String query = "select * from time_master t "+
+						"left join (select * from appointment_master a "
+						+ "where a.appointment_date = '"+selectedDate+"') ap on t.time_id = ap.time_id "
+						+ "where appointment_id is null and t.is_active = 1";
+		rs = conn.createStatement().executeQuery(query);
+		while(rs.next()){
+			timingsMap.put(rs.getString("hour") + ":" + rs.getString("minutes"), rs.getString("time_id"));
+		}
+		
+	}catch(Exception ex){
+		ex.printStackTrace();
+		
+	}
+	ConnectionsUtil.closeResultSet(rs);
+	
+	return timingsMap;
+}
+
+public Integer createAppointment(String doctorId, String patientId, String date, String timeId, String userId, String comments){
+	
+	try{
+		
+		connectionsUtil = new ConnectionsUtil();
+		conn = connectionsUtil.getConnection();
+		
+		String query = "select * from appointment_master where doctor_id = ? and patient_id = ? and "
+						+ "appointment_date = ? and time_id = ?";
+		PreparedStatement psmt = conn.prepareStatement(query);
+		
+		psmt.setInt(1, Integer.parseInt(doctorId));
+		psmt.setString(2, patientId);
+		psmt.setString(3, date);
+		psmt.setString(4, timeId);
+		
+		ResultSet dataRS = psmt.executeQuery();
+		if(dataRS.next()){
+			return 1;
+		}
+		
+		
+		query = "INSERT INTO `appointment_master` "+
+						"(`appointment_desc`,`doctor_id`,`patient_id`,`appointment_date`,"
+						+ "`time_id`,`created_by`, appointment_status) "
+						+ "VALUES(?,?,?,?,?,?,(select status_id from status_master where status_code = 'OPEN'));";
+		psmt = conn.prepareStatement(query);
+		
+		psmt.setString(1, comments);
+		psmt.setString(2, doctorId);
+		psmt.setString(3, patientId);
+		psmt.setString(4, date);
+		psmt.setString(5, timeId);
+		psmt.setString(6, userId);
+		
+		psmt.executeUpdate();		
+		
+	}catch(Exception ex){
+		System.out.println("Error while creating appointment");
+		ex.printStackTrace();
+	}
+	finally{
+		if(conn != null){
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	return 0;
+}
 
 }

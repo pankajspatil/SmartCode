@@ -10,6 +10,8 @@
 <body>
 	<% String Contextpath = request.getContextPath();
     	ArrayList<String> menulist = session.getAttribute("menu") != null ? (ArrayList<String>) session.getAttribute("menu") : new ArrayList<String>();
+    	
+    	System.out.println("menulist===>" + menulist);
 	%>
 	<div id='cssmenu'>
 		<ul>
