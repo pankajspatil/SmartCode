@@ -416,7 +416,7 @@ DROP TABLE IF EXISTS `user_visit`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_visit` (
   `user_visit_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
+  `patient_id` int(11) NOT NULL,
   `weight` varchar(10) DEFAULT NULL,
   `height` varchar(10) DEFAULT NULL,
   `bp` varchar(10) DEFAULT NULL,
@@ -433,10 +433,10 @@ CREATE TABLE `user_visit` (
   `is_active` char(1) NOT NULL DEFAULT '1',
   `created_by` int(11) NOT NULL,
   PRIMARY KEY (`user_visit_id`),
-  KEY `visit_user_id_idx` (`user_id`),
+  KEY `visit_user_id_idx` (`patient_id`),
   KEY `visit_created_by_idx` (`created_by`),
   CONSTRAINT `visit_created_by` FOREIGN KEY (`created_by`) REFERENCES `usermaster` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `visit_user_id` FOREIGN KEY (`user_id`) REFERENCES `usermaster` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `visit_user_id` FOREIGN KEY (`patient_id`) REFERENCES `usermaster` (`userId`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Table to add daily user visit details';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
