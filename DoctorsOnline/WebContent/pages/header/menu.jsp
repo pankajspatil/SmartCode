@@ -18,7 +18,7 @@
 			<%
 				if (menulist.contains("Home")) {
 			%>
-			<li><a href='<%=Contextpath%>'><span>Home</span></a></li>
+			<li><a href='<%=Contextpath%>/pages/home/home.jsp'><span>Home</span></a></li>
 			<%
 				}
 			%>
