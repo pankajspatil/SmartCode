@@ -209,9 +209,9 @@ var allPrescriptions = [];
 		  //alert( index + ": " + value );
 		  if ($('#'+value+'').is(":checked")){
 			  if($('#' + value + 'Qty').val() != ''){
-			  	prescriptionData[value] = $('#'+value+'').val();
+			  	prescriptionData[value] = $('#'+value+'').attr('value');
 			  	prescriptionData[value + 'Qty'] = $('#' + value + 'Qty').val();
-			  	prescriptionData[value + 'Frequency'] = $('#' + value + 'Frequency').val();
+			  	prescriptionData[value + 'Frequency'] = $('#' + value + 'Frequency').find('option:selected').text();
 			  }
 			else{
 				alert('Please fill quantity for ' + value);
@@ -238,7 +238,6 @@ var allPrescriptions = [];
 		prescriptionData.prescriptionId = prescriptionId;
 		prescriptionData.prescriptionName = prescriptionName;
 		
-		var breakfast = $('#breakfast').find('option:selected').text();
 		
 		var row = "<tr>" +
 					"<td>" +
@@ -247,7 +246,7 @@ var allPrescriptions = [];
 					" </td>" +
 					"<td> Every" +fromDoseDays +" "+doseDuration+" "+" for "+tillDosedays +" "+doseTill +
 					"</td>" +
-					"<td>2 in Morning after BreakFast</td>" +
+					"<td><div id='"+prescriptionId+"' class='clickableToolTip' onclick='displayTooltip(this)' onmouseout='disableTooltip(this)' title='details'>Details</div></td>" +
 					"<td align='center'><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
 				"</tr>";
 		
@@ -265,3 +264,57 @@ function validateForm(){
 	document.getElementById('prescriptionData').value = JSON.stringify(allPrescriptions);
 	document.getElementById("newVisitForm").submit();
 }
+
+function openVisitDetailsPage(visitId){
+	window.opener.location = '/DoctorsOnline/pages/doctor/newVisit.jsp?visitId=' +visitId;
+	window.close();
+}
+
+function displayTooltip(selectedObj){
+	
+	var textToDisplay = "";
+	
+	$.each(allPrescriptions, function(index, prescriptionData){
+		if(prescriptionData.prescriptionId === $(selectedObj).attr('id')){
+			var operationText = "morning#afternoon#evening#night";
+			var oprnArray = operationText.split("#");
+			
+			$.each( oprnArray, function( index, value ) {
+				  //alert( index + ": " + value );
+				
+				if(prescriptionData[value]){
+					textToDisplay += "<hr>" + prescriptionData[value + 'Qty'] + " in " 
+								+ prescriptionData[value] + " "+ prescriptionData[value + 'Frequency'];
+				}
+				});
+			return false;
+		}
+	});
+	
+	textToDisplay = textToDisplay.replace(/^<hr>/g,'');
+	
+	$(selectedObj).tooltip({
+		items: '#'+$(selectedObj).attr('id'),
+		content: textToDisplay,
+		position: {
+	        my: "center bottom-20",
+	        at: "center top",
+	        using: function( position, feedback ) {
+	          $( this ).css( position );
+	          $( "<div>" )
+	            .addClass( "arrow" )
+	            .addClass( feedback.vertical )
+	            .addClass( feedback.horizontal )
+	            .appendTo( this );
+	        }
+		}
+	});
+	$(selectedObj).tooltip("open");
+}
+
+function disableTooltip(selectedObj){
+	if($(selectedObj).tooltip( "instance" ) !== undefined){
+		$(selectedObj).tooltip("disable");
+	  }
+}
+

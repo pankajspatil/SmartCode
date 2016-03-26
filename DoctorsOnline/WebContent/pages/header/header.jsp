@@ -24,7 +24,12 @@
 		<h1 style="font-size:57px; text-align: center; color: white; font: sans-serif;">Doctor's Online</h1>
 		
 	</div>
-	<%@ include file="/pages/header/menu.jsp"%>
+	<%
+		if(request.getParameter("menuRequired") == null){
+			%><%@ include file="/pages/header/menu.jsp"%><%
+		}
+	%>
+	
 <script type="text/javascript">
 	var configObj = <%=getServletContext().getAttribute("config")%>;
 </script>

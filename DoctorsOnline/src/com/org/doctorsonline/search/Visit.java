@@ -2,6 +2,8 @@ package com.org.doctorsonline.search;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.LinkedHashMap;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
@@ -16,7 +18,7 @@ public Integer createNewVisit(LinkedHashMap<String, String> paramMap){
 		
 		Connection conn = connectionsUtil.getConnection();
 		
-		String query = "INSERT INTO `user_visit` (`user_id`,`weight`,`height`,"
+		String query = "INSERT INTO `user_visit` (`patient_id`,`weight`,`height`,"
 				+ "`bp`,`bmi`,`gfr`,`hbv`,`hiv`,`g6pd`,`ahb`, "+
 				"`allergy`,`summary`,`prescription_data`,`created_by`) " +
 				"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -50,4 +52,33 @@ public Integer createNewVisit(LinkedHashMap<String, String> paramMap){
 	return 1;
 }
 	
+public ResultSet getVisitHistory(String patientId, String doctorId){
+
+	ResultSet dataRS = null;
+	
+	try{
+		ConnectionsUtil connectionsUtil = new ConnectionsUtil();
+		Connection conn = connectionsUtil.getConnection();
+		
+		String query = "SELECT * FROM user_visit uv "+
+					"inner join usermaster um on uv.patient_id = um.userId";
+		if(patientId != null){
+			query += " where uv.patient_id = " + patientId;
+		}
+		
+		if(doctorId != null){
+			query += " where uv.created_by = " + doctorId;
+		}
+		
+		Statement stmt = conn.createStatement();
+		dataRS = stmt.executeQuery(query);
+		
+		
+	}catch(Exception ex){
+		ex.printStackTrace();
+	}
+	
+	return dataRS;
+
+}
 }

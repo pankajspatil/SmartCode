@@ -213,7 +213,7 @@ try{
 						</td>
 					</tr>
 					<tr>
-						<td>Afternoon<input type="checkbox" id="afternoon" value="afternoon"></td>
+						<td>Afternoon<input type="checkbox" id="afternoon" value="Afternoon"></td>
 						<td>Qty : <input type="text" name="afternoonQty" id="afternoonQty" value=""></td>
 						<td>
 							<select id="afternoonFrequency">
@@ -223,7 +223,7 @@ try{
 						</td>
 					</tr>
 					<tr>
-						<td>Evening&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evening" value="evening"></td>
+						<td>Evening&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evening" value="Evening"></td>
 						<td>Qty : <input type="text" name="eveningQty" id="eveningQty" value=""></td>
 						<td>
 							<select id="eveningFrequency">
@@ -233,7 +233,7 @@ try{
 						</td>
 					</tr>
 					<tr>
-						<td>Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="night" value="night"></td>
+						<td>Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="night" value="Night"></td>
 						<td>Qty : <input type="text" name="nightQty" id="nightQty" value=""></td>
 						<td>
 							<select id="nightFrequency">
