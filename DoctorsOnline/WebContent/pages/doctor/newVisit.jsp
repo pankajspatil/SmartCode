@@ -1,3 +1,6 @@
+<%@page import="com.org.doctorsonline.search.Visit"%>
+<%@page import="com.org.doctorsonline.generic.Constants"%>
+<%@page import="com.org.doctorsonline.generic.Utils"%>
 <%@page import="java.util.concurrent.ConcurrentHashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.org.doctorsonline.generic.ConnectionsUtil"%>
@@ -30,23 +33,67 @@ try{
 </head>
 <body>
 	<br />
-	<form method="post" name="form1" >
+	<form method="post" name="newVisitForm" id="newVisitForm">
 	<h1 align="center">Patient New Visit</h1>
 	<%
-	String userId = request.getParameter("userId");
+	
 	Search search = new Search();
-	String patientName  = "";
+	
+	String height = "", weight = "", bp = "", bmi = "", gfr = "", hbv = "", hiv = "";
+	String g6pd = "", abnormalHB = "", allergy = "", visitSummary = "", patientName = "";
+	Integer returnValue = null;
+	String today = new Date().toString();
+	
+	String userId = request.getParameter("userId");
+	//out.println("userId===>" + userId);
+		
+	if(request.getParameter("page1") != null){
+		String prescriptionData = Utils.getString(request.getParameter("prescriptionData"));
+		//out.println("prescriptionData===>" + prescriptionData);
+		
+		height = Utils.getString(request.getParameter(Constants.HEIGHT));
+		weight = Utils.getString(request.getParameter(Constants.WEIGHT));
+		bp = Utils.getString(request.getParameter(Constants.BP));
+		bmi = Utils.getString(request.getParameter(Constants.BMI));
+		gfr = Utils.getString(request.getParameter(Constants.GFR));
+		hbv = Utils.getString(request.getParameter(Constants.HBV));
+		hiv = Utils.getString(request.getParameter(Constants.HIV));
+		g6pd = Utils.getString(request.getParameter(Constants.G6PD));
+		abnormalHB = Utils.getString(request.getParameter(Constants.ABNORMAL_HB));
+		allergy = Utils.getString(request.getParameter(Constants.ALLERGY));
+		visitSummary = Utils.getString(request.getParameter(Constants.VISIT_SUMMARY));
+		
+		LinkedHashMap<String, String> paramMap = new LinkedHashMap<String, String>();
+		paramMap.put(Constants.PRESCRIPTION_DATA, prescriptionData);
+		paramMap.put(Constants.HEIGHT, height);
+		paramMap.put(Constants.WEIGHT, weight);
+		paramMap.put(Constants.BP, bp);
+		paramMap.put(Constants.BMI, bmi);
+		paramMap.put(Constants.GFR, gfr);
+		paramMap.put(Constants.HBV, hbv);
+		paramMap.put(Constants.HIV, hiv);
+		paramMap.put(Constants.G6PD, g6pd);
+		paramMap.put(Constants.ABNORMAL_HB, abnormalHB);
+		paramMap.put(Constants.ALLERGY, allergy);
+		paramMap.put(Constants.USER_ID, session.getAttribute("userId").toString());
+		paramMap.put(Constants.PATIENT_ID, userId);
+		paramMap.put(Constants.VISIT_SUMMARY, visitSummary);
+		
+		Visit visit = new Visit();
+		
+		returnValue = visit.createNewVisit(paramMap);
+		//out.println("returnValue===>" + returnValue);
+	}
 	
 	ResultSet userDataRS = search.getUser(userId);
 	if(userDataRS != null){
 		
-		userDataRS.next();
-		
+		while(userDataRS.next()){
+			
 		patientName += (userDataRS.getString("firstName") + " "
 				+ userDataRS.getString("middleName") + " " 
 				+ userDataRS.getString("lastName")).replaceAll("[ ]+", " ");
-		String today = new Date().toString();
-		
+		}
 		%>
 	<table align="center" width="50%">
 		<tr>
@@ -79,19 +126,19 @@ try{
 			</tr>
 		<tr>
 			<td>HBV :</td>
-			<td><input type="text" name="HBV" id="HBV" size="5" value=""></td>	
+			<td><input type="text" name="hbv" id="HBhbvV" size="5" value=""></td>	
 			<td>HIV :</td>
-			<td><input type="text" name="HIV" id="HIV" size="5" value=""></td>
-			<td>G6PD :</td><td><input type="text" name="G6PD" id="G6PD" size="5" value=""></td>
+			<td><input type="text" name="hiv" id="hiv" size="5" value=""></td>
+			<td>G6PD :</td><td><input type="text" name="g6pd" id="g6pd" size="5" value=""></td>
 			<td>AbnormalHB :</td><td><input type="text" name="abnormalHB" id="abnormalHB" size="5" value=""></td>
 			<td>Allergy :</td><td><input type="text" name="allergy" id="allergy" size="5" value=""></td>		
 		</tr>
-		<tr><br>
+		<tr>
 			<td colspan="6" align="left">Visit Summary</td>
 		</tr>
 		<tr>
 			<td colspan="6" align="left"><textarea rows="6" cols="1"
-					name="summary" id="summary" style="width: 100%"></textarea></td>
+					name="visitSummary" id="visitSummary" style="width: 100%"></textarea></td>
 		</tr>
 	</table>
 	<br />
@@ -159,7 +206,7 @@ try{
 						<td>Morning&nbsp;&nbsp;<input type="checkbox" id="morning" value="Morning"></td>
 						<td>Qty : <input type="text" name="morningQty" id="morningQty" value=""></td>
 						<td>
-							<select id="breakfast">
+							<select id="morningFrequency">
 								<option value="afterBreakfast">After BreakFast</option>
 								<option value="beforeBreakfast">Before BreakFast</option>
 							</select>
@@ -169,7 +216,7 @@ try{
 						<td>Afternoon<input type="checkbox" id="afternoon" value="afternoon"></td>
 						<td>Qty : <input type="text" name="afternoonQty" id="afternoonQty" value=""></td>
 						<td>
-							<select id="meal">
+							<select id="afternoonFrequency">
 								<option value="afterMeal">After Meal</option>
 								<option value="beforeMeal">Before Meal</option>
 							</select>
@@ -179,7 +226,7 @@ try{
 						<td>Evening&nbsp;&nbsp;&nbsp;<input type="checkbox" id="evening" value="evening"></td>
 						<td>Qty : <input type="text" name="eveningQty" id="eveningQty" value=""></td>
 						<td>
-							<select id="snacks">
+							<select id="eveningFrequency">
 								<option value="afterSnack">After Snacks</option>
 								<option value="beforeSnack">Before Snacks</option>
 							</select>
@@ -189,7 +236,7 @@ try{
 						<td>Night&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="night" value="night"></td>
 						<td>Qty : <input type="text" name="nightQty" id="nightQty" value=""></td>
 						<td>
-							<select id="dinner">
+							<select id="nightFrequency">
 								<option value="afterDinner">After Dinner</option>
 								<option value="beforeDinner">Before Dinner</option>
 							</select>
@@ -216,13 +263,29 @@ try{
 		</tr>
 	</table>
 	<br />
-	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont"></center>
+	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont" onclick="validateForm()"></center>
+	<input type="hidden" value="" name="prescriptionData" id="prescriptionData">
+	<input type="hidden" value="<%=userId %>" name="userId" id="userId">
+	
+	<script type="text/javascript">
+	var returnValue = <%=returnValue%>;
+	//alert(returnValue);
+	if(returnValue != null){
+		if(returnValue == '0'){
+			alert('Data has been successfully saved!!');
+			//$('#page1').disabled = true;
+		}else{
+			alert('Error while saving data');
+		}			
+	}
+	</script>
+	
 	<%
 	
 	
 	ConnectionsUtil.closeResultSet(userDataRS);
 }catch(Exception e){
-	System.out.println("Error ");
+	System.out.println("Error in new visit");
 	e.printStackTrace();
 	
 }

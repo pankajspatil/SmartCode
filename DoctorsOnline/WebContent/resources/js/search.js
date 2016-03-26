@@ -58,66 +58,6 @@ function openPage(oepration, userId){
 }
 }
 	
-function addPrescription(){
-	var prescriptionId = $('#combobox').find('option:selected').val();
-	var prescriptionName = $('#combobox').find('option:selected').text();
-	
-	var fromDoseDays = $('#fromDoseDays').find('option:selected').text();
-	
-	var doseDuration = $('#doseDuration').find('option:selected').text();
-	
-	var doseTill = $('#doseTill').find('option:selected').text();
-	
-	var tillDosedays = $('#tillDosedays').find('option:selected').text();
-	
-	
-	var tableObj = $('#addedPrescription');
-	$('#noData').remove();
-	
-	var isPresesnt = false;
-	
-	tableObj.find("input[type='hidden']").each(function(){
-	     if(prescriptionId == $(this).val()){
-	    	 alert('Prescription already added.');
-	    	 isPresesnt = true;
-	     }
-	  });
-	
-	if(!isPresesnt){
-		
-	var morning ="";
-	var morningQty ="";
-	var breakfast="";
-	
-	if ($('#morning').is(":checked")){
-		morning = $('#morning').val();
-		morningQty = $('#morningQty').val();
-		
-	}
-	
-	var breakfast = $('#breakfast').find('option:selected').text();
-	
-	var row = "<tr>" +
-				"<td>" +
-					"<input type='hidden' name='prescriptionId' value='"+prescriptionId+"'>" + 
-					prescriptionName +
-				" </td>" +
-				"<td> Every" +fromDoseDays +" "+doseDuration+" "+" for "+tillDosedays +" "+doseTill +
-				"</td>" +
-				"<td>"+" in " + morning +", "+morningQty+ " "
-				+breakfast+
-				"</td>" +
-				"<td align='center'><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
-			"</tr>";
-	
-	tableObj.append(row);
-	}
-}
-
-function deleteRow(cellObj){
-	var row = cellObj.closest('tr');
-	row.remove();
-}
 
 
 

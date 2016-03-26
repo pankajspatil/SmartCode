@@ -322,7 +322,7 @@ for(Map.Entry<String,String> map : timings.entrySet()){
 		<td>Preferred Physician : </td>
 		<td>
 			<select name="physician" id="physician" class="physician autocomplete">
-			<option value="-1"></option>
+			<option value=""></option>
 			<%
 					Iterator it = doctorList.iterator();
 					User user = null;

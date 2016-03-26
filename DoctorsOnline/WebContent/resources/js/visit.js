@@ -2,6 +2,10 @@
  * This java script page created to include function required on patient visit page in case of new / edit / view.
  */
 
+var prescriptionId = '';
+var prescriptionName = '';
+var allPrescriptions = [];
+
   (function( $ ) {
     $.widget( "custom.combobox", {
       _create: function() {
@@ -133,7 +137,12 @@
   })( jQuery );
  
   $(function() {
-    $( "#combobox" ).combobox();
+    $( "#combobox" ).combobox({
+    	select:function(event,ui){
+    		prescriptionId = ui.item.value;
+    		prescriptionName = ui.item.text;
+    	}
+    });
     $( "#toggle" ).click(function() {
       $( "#combobox" ).toggle();
     });
@@ -172,3 +181,87 @@
 	  
 	  
   }
+  function addPrescription(){
+
+	  //var prescriptionId = $('#combobox').find('option:selected').val();
+	  //var prescriptionName = $('#combobox').find('option:selected').text();
+	  var prescriptionData = {};
+	  var isValid = true;
+	  
+	  if(prescriptionId == ''){
+		  alert('Please select medicine from dropdown.');
+		  $('#combobox').focus();
+		  return false;
+	  }
+		
+	var fromDoseDays = $('#fromDoseDays').find('option:selected').text();
+	
+	var doseDuration = $('#doseDuration').find('option:selected').text();
+	
+	var doseTill = $('#doseTill').find('option:selected').text();
+	
+	var tillDosedays = $('#tillDosedays').find('option:selected').text();
+	
+	var operationText = "morning#afternoon#evening#night";
+	var oprnArray = operationText.split("#");
+	
+	$.each( oprnArray, function( index, value ) {
+		  //alert( index + ": " + value );
+		  if ($('#'+value+'').is(":checked")){
+			  if($('#' + value + 'Qty').val() != ''){
+			  	prescriptionData[value] = $('#'+value+'').val();
+			  	prescriptionData[value + 'Qty'] = $('#' + value + 'Qty').val();
+			  	prescriptionData[value + 'Frequency'] = $('#' + value + 'Frequency').val();
+			  }
+			else{
+				alert('Please fill quantity for ' + value);
+				$('#' + value + 'Qty').focus();
+				isValid = false;
+				return false;
+			}
+		  }
+		});
+		
+		var tableObj = $('#addedPrescription');
+		$('#noData').remove();
+			
+		
+		tableObj.find("input[type='hidden']").each(function(){
+		     if(prescriptionId == $(this).val()){
+		    	 alert('Prescription already added.');
+		    	 isValid = false;
+		     }
+		  });
+		
+		if(isValid){
+			
+		prescriptionData.prescriptionId = prescriptionId;
+		prescriptionData.prescriptionName = prescriptionName;
+		
+		var breakfast = $('#breakfast').find('option:selected').text();
+		
+		var row = "<tr>" +
+					"<td>" +
+						"<input type='hidden' name='prescriptionId' value='"+prescriptionId+"'>" + 
+						prescriptionName +
+					" </td>" +
+					"<td> Every" +fromDoseDays +" "+doseDuration+" "+" for "+tillDosedays +" "+doseTill +
+					"</td>" +
+					"<td>2 in Morning after BreakFast</td>" +
+					"<td align='center'><input type='button' value='Delete' onClick='deleteRow(this)'></td>"+
+				"</tr>";
+		
+		tableObj.append(row);
+		allPrescriptions.push(prescriptionData);
+		}
+	}
+
+	function deleteRow(cellObj){
+		var row = cellObj.closest('tr');
+		row.remove();
+	}
+	
+function validateForm(){
+	document.getElementById('prescriptionData').value = JSON.stringify(allPrescriptions);
+	document.getElementById("newVisitForm").submit();
+}
