@@ -17,4 +17,10 @@ public class Constants {
 	public static final String ABNORMAL_HB = "abnormalHB";
 	public static final String ALLERGY = "allargy";
 	public static final String VISIT_SUMMARY = "visitSummary";
+	public static final String PATIENT_FIRST_NAME = "firstName";
+	public static final String PATIENT_LAST_NAME = "lastName";
+	public static final String PATIENT_MIDDLE_NAME = "middleName";
+	public static final String PATIENT_APPOINTMENT_DATE = "appointment_date";
+	
+	
 }

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
 import com.org.doctorsonline.generic.ConnectionsUtil;
+import com.org.doctorsonline.generic.Constants;
 import com.org.doctorsonline.generic.Utils;
 import com.org.doctorsonline.model.AppointmentModel;
 import com.org.doctorsonline.model.Appointment_Master;
@@ -250,8 +251,8 @@ public class Appointment {
 		return 0;
 	}
 	
-	public ArrayList<AppointmentModel> getAppointmentList(){
-		ArrayList<AppointmentModel> appointmentList = new ArrayList<AppointmentModel>();
+	public ArrayList<LinkedHashMap<String, String>> getAppointmentList(){
+		ArrayList<LinkedHashMap<String, String>> appointmentList = new ArrayList<LinkedHashMap<String, String>>();
 
 		try {
 			connectionsUtil = new ConnectionsUtil();
@@ -266,9 +267,13 @@ public class Appointment {
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			rs = preparedStatement.executeQuery();
 
-			AppointmentModel appointmentModel = null;
+			LinkedHashMap<String, String> appointmentModel = null;
 			while (rs.next()) {
-				appointmentModel = new AppointmentModel(rs.getString("firstName"),rs.getString("lastName"),rs.getString("appointment_date"));
+				appointmentModel = new LinkedHashMap<String, String>();
+				appointmentModel.put(Constants.PATIENT_FIRST_NAME,rs.getString("firstName"));
+				appointmentModel.put(Constants.USER_ID,rs.getString("userId"));
+				appointmentModel.put(Constants.PATIENT_LAST_NAME,rs.getString("lastName"));
+				appointmentModel.put(Constants.PATIENT_APPOINTMENT_DATE,rs.getString("appointment_date"));
 				appointmentList.add(appointmentModel);
 			}
 

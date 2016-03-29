@@ -1,8 +1,10 @@
+<%@page import="com.org.doctorsonline.generic.Constants"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@page import="com.org.doctorsonline.search.Appointment"%>
-<%@page import="com.org.doctorsonline.model.AppointmentModel"%>
+<%@page import="java.util.LinkedHashMap" %>
 
+<%@ include file="/pages/generic/validateSession.jsp"%>
 
 <%@ include file="/pages/header/header.jsp"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -43,7 +45,7 @@
 </head>
 <%
 	Appointment appointment = new Appointment();
-	ArrayList<AppointmentModel> appointmentList = appointment
+ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 			.getAppointmentList();
 %>
 <body>
@@ -59,17 +61,21 @@
 				<th>First Name</th>
 				<th>Second Name</th>
 				<th>Appointment Date</th>
+				<th>Operation</th>
 			</tr>
 		</thead>
 		<tbody>
 			<%
 				for (int i = 0; i < appointmentList.size(); i++) {
-					AppointmentModel appointmentModel = appointmentList.get(i);
+					LinkedHashMap<String, String> appointmentModel = appointmentList.get(i);
 			%>
 			<tr>
-				<td><%=appointmentModel.getmFirstname()%></td>
-				<td><%=appointmentModel.getmLastname()%></td>
-				<td><%=appointmentModel.getAppointmentDate()%></td>
+				<td><%=appointmentModel.get(Constants.PATIENT_FIRST_NAME)%></td>
+				<td><%=appointmentModel.get(Constants.PATIENT_LAST_NAME)%></td>
+				<td><%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_DATE)%></td>
+				<td><input type="button" name="NewVisit" value="NV" onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>')" />
+				<input type="button" name="Visit History" value="VH" onclick="openPage('vHistory','<%=appointmentModel.get(Constants.USER_ID) %>')" />
+				</td>
 			</tr>
 			<%
 				}
