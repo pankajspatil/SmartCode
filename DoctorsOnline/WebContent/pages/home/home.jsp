@@ -29,6 +29,8 @@
 <link rel="stylesheet" type="text/css"
 	href="/DoctorsOnline/resources/css/jquery.dataTables.min.css"></link>
 
+<link rel="stylesheet" type="text/css"
+	href="/DoctorsOnline/resources/css/visit.css"></link>
 
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -57,7 +59,7 @@ ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 	<table border="" align="center" id="appointmentData" class="display"
 		cellspacing="0" width="100%">
 		<thead>
-			<tr>
+			<tr class="mainTR">
 				<th>First Name</th>
 				<th>Second Name</th>
 				<th>Appointment Date</th>
@@ -69,9 +71,13 @@ ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 				for (int i = 0; i < appointmentList.size(); i++) {
 					LinkedHashMap<String, String> appointmentModel = appointmentList.get(i);
 			%>
-			<tr>
-				<td onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>','<%=appointmentModel.get(Constants.APPOINTMENT_ID) %>')">
-					<%=appointmentModel.get(Constants.PATIENT_FIRST_NAME)%></td>
+			<tr class="mainTR">
+				<td>
+					<div class="clickableLink" onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>',
+							'<%=appointmentModel.get(Constants.APPOINTMENT_ID) %>')">
+						<%=appointmentModel.get(Constants.PATIENT_FIRST_NAME)%>
+					</div>
+				</td>
 				<td><%=appointmentModel.get(Constants.PATIENT_LAST_NAME)%></td>
 				<td><%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_DATE)%></td>
 				<td><input type="button" name="NewVisit" value="NV" onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>')" />
