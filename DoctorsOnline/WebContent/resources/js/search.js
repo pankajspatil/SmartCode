@@ -27,7 +27,7 @@ function searchKeySelect(selectObj){
 	}
 }
 
-function openPage(oepration, patientId){
+function openPage(oepration, patientId, appointmentId){
 	
 	var formObj = $(document.createElement('form'));
 	formObj.attr("method", "post");
@@ -62,7 +62,16 @@ function openPage(oepration, patientId){
     	    	
     	break;      
     case 'vNew': 
-        formObj.attr("action", "/DoctorsOnline/pages/doctor/newVisit.jsp");
+    	
+    	if(appointmentId !== undefined){
+    		var appointObj = $(document.createElement('input'));
+        	appointObj.attr("type", "text");
+        	appointObj.attr("value", appointmentId);
+        	appointObj.attr("name", "appointmentId");
+        	formObj.append(appointObj);
+    	}
+    	
+    	formObj.attr("action", "/DoctorsOnline/pages/doctor/newVisit.jsp");
         formObj.submit();
         break;
     default:

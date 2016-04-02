@@ -47,12 +47,12 @@ try{
 	
 	String userId = Utils.getString(request.getParameter("userId"));
 	visitId = Utils.getString(request.getParameter("visitId"));
-	//out.println("userId===>" + userId);
-	%><h1 align="center"><%=visitId.equals("") ? "Patient New Visit" : "Visit Details"%></h1><%
+	String appointmentId = Utils.getString(request.getParameter("appointmentId"));
+	//out.println("userId===>" + appointmentId);
 		
 	if(request.getParameter("page1") != null){
 		prescriptionData = Utils.getString(request.getParameter("prescriptionData"));
-		//out.println("prescriptionData===>" + prescriptionData);
+		out.println("prescriptionData===>" + prescriptionData);
 		
 		height = Utils.getString(request.getParameter(Constants.HEIGHT));
 		weight = Utils.getString(request.getParameter(Constants.WEIGHT));
@@ -81,10 +81,13 @@ try{
 		paramMap.put(Constants.USER_ID, session.getAttribute("userId").toString());
 		paramMap.put(Constants.PATIENT_ID, userId);
 		paramMap.put(Constants.VISIT_SUMMARY, visitSummary);
+		paramMap.put(Constants.APPOINTMENT_ID, appointmentId);
+		System.out.println("paramMap===>" + paramMap);
 		
+		LinkedHashMap<String, Object> returnMap = visit.createNewVisit(paramMap);
 		
-		returnValue = visit.createNewVisit(paramMap);
-		//out.println("returnValue===>" + returnValue);
+		returnValue = (Integer)returnMap.get(Constants.RETURN_STATUS);		
+		visitId = returnMap.get(Constants.VISIT_ID) == null ? "" : returnMap.get(Constants.VISIT_ID).toString();
 	}
 	
 	if(userId != null){
@@ -124,8 +127,7 @@ try{
 				allergy = Utils.getString(dataRS.getString("allergy"));
 				visitSummary = Utils.getString(dataRS.getString("summary"));
 				//Sun Apr 03 01:26:53 IST 2016
-				SimpleDateFormat sdfDate = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
-				
+				SimpleDateFormat sdfDate = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");				
 				today = sdfDate.format(dataRS.getTimestamp("created_on"));
 			}
 		}
@@ -134,6 +136,7 @@ try{
 	
 	
 		%>
+	<h1 align="center"><%=visitId.equals("") ? "Patient New Visit" : "Visit Details"%></h1>
 	<table align="center" width="50%" id="visitDetails">
 		<tr>
 			<td>Patient Name :</td>
@@ -292,7 +295,8 @@ try{
 	<br />
 	<br />
 	<table width="50%" border="1" name="addedPrescription"
-		id="addedPrescription" align="center">
+		id="addedPrescription" align="center" class="<%=visitId.equals("") ? "" 
+				: ((!visitId.equals("") && !prescriptionData.equals("")) ? "" : "displayHide")%>">
 		<tr class="mainBGnFont">
 			<td width="25%" align="center">Prescription Name</td>
 			<td align="center">Dose</td>
@@ -307,24 +311,25 @@ try{
 	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont <%=visitId.equals("") ? "" : "displayHide"%>" onclick="validateForm()"></center>
 	<input type="hidden" value='<%=prescriptionData %>' name="prescriptionData" id="prescriptionData">
 	<input type="hidden" value="<%=userId %>" name="userId" id="userId">
+	<input type="hidden" value="<%=appointmentId %>" name="appointmentId" id="appointmentId">
+	
 	
 	<script type="text/javascript">
 	var returnValue = <%=returnValue%>;
 	var visitId = <%=visitId.equals("") ? "''" : visitId%>;
 	//alert(returnValue);
-	if(returnValue != null){
-		if(returnValue == '0'){
-			alert('Data has been successfully saved!!');
-			//$('#page1').disabled = true;
-		}else{
-			alert('Error while saving data');
-		}			
-	}
-	
 	if(visitId !== ''){
 		updateVisitDetails();
 	}
 	
+	if(returnValue != null){
+		if(returnValue == '-1'){
+			alert('Error while saving data');
+		}else{
+			alert('Data has been successfully saved!!');
+			//$('#page1').disabled = true;
+		}			
+	}
 	</script>
 	
 	<%

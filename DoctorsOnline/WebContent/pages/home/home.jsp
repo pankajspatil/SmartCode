@@ -70,7 +70,8 @@ ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 					LinkedHashMap<String, String> appointmentModel = appointmentList.get(i);
 			%>
 			<tr>
-				<td><%=appointmentModel.get(Constants.PATIENT_FIRST_NAME)%></td>
+				<td onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>','<%=appointmentModel.get(Constants.APPOINTMENT_ID) %>')">
+					<%=appointmentModel.get(Constants.PATIENT_FIRST_NAME)%></td>
 				<td><%=appointmentModel.get(Constants.PATIENT_LAST_NAME)%></td>
 				<td><%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_DATE)%></td>
 				<td><input type="button" name="NewVisit" value="NV" onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>')" />

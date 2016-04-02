@@ -11,12 +11,13 @@ import com.org.doctorsonline.generic.Constants;
 
 public class Visit {
 
-public Integer createNewVisit(LinkedHashMap<String, String> paramMap){
+public LinkedHashMap<String, Object> createNewVisit(LinkedHashMap<String, String> paramMap){
 	ConnectionsUtil connectionsUtil = new ConnectionsUtil();
-	
+	LinkedHashMap<String, Object> returnMap = new LinkedHashMap<String, Object>();
 	try{
 		
 		Connection conn = connectionsUtil.getConnection();
+		
 		
 		String query = "INSERT INTO `user_visit` (`patient_id`,`weight`,`height`,"
 				+ "`bp`,`bmi`,`gfr`,`hbv`,`hiv`,`g6pd`,`ahb`, "+
@@ -41,15 +42,29 @@ public Integer createNewVisit(LinkedHashMap<String, String> paramMap){
 		
 		psmt.executeUpdate();
 		
+		ResultSet dataRS = psmt.getGeneratedKeys();
+		if(dataRS != null && dataRS.next()){
+			returnMap.put(Constants.VISIT_ID, dataRS.getString(1));
+			//returnMap.put(Constants.VISIT_DATE, dataRS.getDate("created_on"));
+		}
+		
+		if(paramMap.get(Constants.APPOINTMENT_ID) != null || !paramMap.get(Constants.APPOINTMENT_ID).equals("")){
+			query = "update appointment_master set appointment_status = (select status_id from status_master where status_code = 'CONFIRMED') "
+					+ "where appointment_id = " + paramMap.get(Constants.APPOINTMENT_ID);
+			conn.createStatement().executeUpdate(query);
+		}
+		
+		
 		ConnectionsUtil.closeConnection(psmt);
 		
-		return 0;
+		returnMap.put(Constants.RETURN_STATUS, 0);
 		
 	}catch(Exception ex){
 		ex.printStackTrace();
+		returnMap.put(Constants.RETURN_STATUS, 0);
 	}
 	
-	return 1;
+	return returnMap;
 }
 	
 public ResultSet getVisitDetail(String patientId, String doctorId, String visitId){
