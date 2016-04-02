@@ -54,7 +54,7 @@ ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 	<br />
 	<h1 class="moduleHeader" style="text-align: center;">Appointment Home Page</h1>
 
-	<table border="" align="center" id="patientData" class="display"
+	<table border="" align="center" id="appointmentData" class="display"
 		cellspacing="0" width="100%">
 		<thead>
 			<tr>
