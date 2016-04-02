@@ -1,3 +1,4 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="com.org.doctorsonline.search.Visit"%>
 <%@page import="com.org.doctorsonline.generic.Constants"%>
 <%@page import="com.org.doctorsonline.generic.Utils"%>
@@ -34,21 +35,23 @@ try{
 <body>
 	<br />
 	<form method="post" name="newVisitForm" id="newVisitForm">
-	<h1 align="center">Patient New Visit</h1>
 	<%
 	
 	Search search = new Search();
 	
-	String height = "", weight = "", bp = "", bmi = "", gfr = "", hbv = "", hiv = "";
-	String g6pd = "", abnormalHB = "", allergy = "", visitSummary = "", patientName = "";
+	String height = "", weight = "", bp = "", bmi = "", gfr = "", hbv = "", hiv = "", prescriptionData = "";
+	String g6pd = "", abnormalHB = "", allergy = "", visitSummary = "", patientName = "", visitId = "";
 	Integer returnValue = null;
 	String today = new Date().toString();
+	Visit visit = new Visit();
 	
-	String userId = request.getParameter("userId");
+	String userId = Utils.getString(request.getParameter("userId"));
+	visitId = Utils.getString(request.getParameter("visitId"));
 	//out.println("userId===>" + userId);
+	%><h1 align="center"><%=visitId.equals("") ? "Patient New Visit" : "Visit Details"%></h1><%
 		
 	if(request.getParameter("page1") != null){
-		String prescriptionData = Utils.getString(request.getParameter("prescriptionData"));
+		prescriptionData = Utils.getString(request.getParameter("prescriptionData"));
 		//out.println("prescriptionData===>" + prescriptionData);
 		
 		height = Utils.getString(request.getParameter(Constants.HEIGHT));
@@ -79,23 +82,59 @@ try{
 		paramMap.put(Constants.PATIENT_ID, userId);
 		paramMap.put(Constants.VISIT_SUMMARY, visitSummary);
 		
-		Visit visit = new Visit();
 		
 		returnValue = visit.createNewVisit(paramMap);
 		//out.println("returnValue===>" + returnValue);
 	}
 	
-	ResultSet userDataRS = search.getUser(userId);
-	if(userDataRS != null){
+	if(userId != null){
 		
-		while(userDataRS.next()){
+		ResultSet userDataRS = search.getUser(userId);
+		if(userDataRS != null){
 			
-		patientName += (userDataRS.getString("firstName") + " "
-				+ userDataRS.getString("middleName") + " " 
-				+ userDataRS.getString("lastName")).replaceAll("[ ]+", " ");
+			while(userDataRS.next()){
+				
+			patientName = (userDataRS.getString("firstName") + " "
+					+ userDataRS.getString("middleName") + " " 
+					+ userDataRS.getString("lastName")).replaceAll("[ ]+", " ");
+			}
 		}
+		ConnectionsUtil.closeResultSet(userDataRS);
+	
+	if(!visitId.equals("")){
+		
+		ResultSet dataRS =  visit.getVisitDetail(null, null, visitId);
+		if(dataRS != null){
+			while(dataRS.next()){				
+				patientName = (dataRS.getString("firstName") + " "
+						+ dataRS.getString("middleName") + " " 
+						+ dataRS.getString("lastName")).replaceAll("[ ]+", " ");
+				prescriptionData = Utils.getString(dataRS.getString("prescription_data"));
+				//out.println("prescriptionData===>" + prescriptionData);
+				
+				height = Utils.getString(dataRS.getString("height"));
+				weight = Utils.getString(dataRS.getString("weight"));
+				bp = Utils.getString(dataRS.getString("bp"));
+				bmi = Utils.getString(dataRS.getString("bmi"));
+				gfr = Utils.getString(dataRS.getString("gfr"));
+				hbv = Utils.getString(dataRS.getString("hbv"));
+				hiv = Utils.getString(dataRS.getString("hiv"));
+				g6pd = Utils.getString(dataRS.getString("g6pd"));
+				abnormalHB = Utils.getString(dataRS.getString("ahb"));
+				allergy = Utils.getString(dataRS.getString("allergy"));
+				visitSummary = Utils.getString(dataRS.getString("summary"));
+				//Sun Apr 03 01:26:53 IST 2016
+				SimpleDateFormat sdfDate = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+				
+				today = sdfDate.format(dataRS.getTimestamp("created_on"));
+			}
+		}
+		ConnectionsUtil.closeResultSet(dataRS);
+	}
+	
+	
 		%>
-	<table align="center" width="50%">
+	<table align="center" width="50%" id="visitDetails">
 		<tr>
 			<td>Patient Name :</td>
 			<td align="left"><%=patientName %></td>
@@ -110,15 +149,15 @@ try{
 	<table align="center" width="60%">
 		<tr>
 			<td>Weight :</td>
-			<td><input type="text" name="weight" size="5" id="weight" value=""></td>
+			<td><input type="text" name="weight" size="5" id="weight" value="<%=weight%>"></td>
 			<td>Height :</td>
-			<td><input type="text" name="height" size="5" id="height" value=""></td>
+			<td><input type="text" name="height" size="5" id="height" value="<%=height%>"></td>
 			<td>BP :</td>
-			<td><input type="text" name="bp" id="bp" size="5" value=""></td>
+			<td><input type="text" name="bp" id="bp" size="5" value="<%=bp%>"></td>
 			<td>BMI :</td>
-			<td><input type="text" name="bmi" size="5" id="bmi" title="Body Mass Index" value=""></td>
+			<td><input type="text" name="bmi" size="5" id="bmi" title="Body Mass Index" value="<%=bmi%>"></td>
 			<td>GFR :</td>
-			<td><input type="text" name="gfr" size="5" id="gfr" value=""></td>
+			<td><input type="text" name="gfr" size="5" id="gfr" value="<%=gfr%>"></td>
 						
 		</tr>
 		<tr>
@@ -126,19 +165,19 @@ try{
 			</tr>
 		<tr>
 			<td>HBV :</td>
-			<td><input type="text" name="hbv" id="HBhbvV" size="5" value=""></td>	
+			<td><input type="text" name="hbv" id="HBhbvV" size="5" value="<%=hbv%>"></td>	
 			<td>HIV :</td>
-			<td><input type="text" name="hiv" id="hiv" size="5" value=""></td>
-			<td>G6PD :</td><td><input type="text" name="g6pd" id="g6pd" size="5" value=""></td>
-			<td>AbnormalHB :</td><td><input type="text" name="abnormalHB" id="abnormalHB" size="5" value=""></td>
-			<td>Allergy :</td><td><input type="text" name="allergy" id="allergy" size="5" value=""></td>		
+			<td><input type="text" name="hiv" id="hiv" size="5" value="<%=hiv%>"></td>
+			<td>G6PD :</td><td><input type="text" name="g6pd" id="g6pd" size="5" value="<%=g6pd%>"></td>
+			<td>AbnormalHB :</td><td><input type="text" name="abnormalHB" id="abnormalHB" size="5" value="<%=abnormalHB%>"></td>
+			<td>Allergy :</td><td><input type="text" name="allergy" id="allergy" size="5" value="<%=allergy%>"></td>		
 		</tr>
 		<tr>
 			<td colspan="6" align="left">Visit Summary</td>
 		</tr>
 		<tr>
 			<td colspan="6" align="left"><textarea rows="6" cols="1"
-					name="visitSummary" id="visitSummary" style="width: 100%"></textarea></td>
+					name="visitSummary" id="visitSummary" style="width: 100%"><%=visitSummary %></textarea></td>
 		</tr>
 	</table>
 	<br />
@@ -147,7 +186,8 @@ try{
 	<%
 		//userDataRS.next();
 	}
-	
+	if(visitId.equals("")){
+		
 	ConcurrentHashMap<String,String> prescription = (ConcurrentHashMap<String,String>) application.getAttribute("prescription");
 	%><table align="center" width="80%" border="1">
 		<tr align="center"  class='mainBGnFont'>
@@ -248,6 +288,7 @@ try{
 				onclick="addPrescription()" align="middle" class="mainBGnFont"></td>
 		</tr>
 	</table>
+	<%} %>
 	<br />
 	<br />
 	<table width="50%" border="1" name="addedPrescription"
@@ -256,19 +297,20 @@ try{
 			<td width="25%" align="center">Prescription Name</td>
 			<td align="center">Dose</td>
 			<td align="center">Usage</td>
-			<td align="center">Action</td>
+			<td align="center" class="<%=visitId.equals("") ? "" : "displayHide"%>">Action</td>
 		</tr>
 		<tr id="noData">
 			<td colspan="4" align="center">No Prescription Added</td>
 		</tr>
 	</table>
 	<br />
-	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont" onclick="validateForm()"></center>
-	<input type="hidden" value="" name="prescriptionData" id="prescriptionData">
+	<center><input type="submit" value="Submit" name="page1" id="page1" class="mainBGnFont <%=visitId.equals("") ? "" : "displayHide"%>" onclick="validateForm()"></center>
+	<input type="hidden" value='<%=prescriptionData %>' name="prescriptionData" id="prescriptionData">
 	<input type="hidden" value="<%=userId %>" name="userId" id="userId">
 	
 	<script type="text/javascript">
 	var returnValue = <%=returnValue%>;
+	var visitId = <%=visitId.equals("") ? "''" : visitId%>;
 	//alert(returnValue);
 	if(returnValue != null){
 		if(returnValue == '0'){
@@ -278,12 +320,15 @@ try{
 			alert('Error while saving data');
 		}			
 	}
+	
+	if(visitId !== ''){
+		updateVisitDetails();
+	}
+	
 	</script>
 	
 	<%
 	
-	
-	ConnectionsUtil.closeResultSet(userDataRS);
 }catch(Exception e){
 	System.out.println("Error in new visit");
 	e.printStackTrace();

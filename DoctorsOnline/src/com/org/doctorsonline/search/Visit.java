@@ -52,7 +52,7 @@ public Integer createNewVisit(LinkedHashMap<String, String> paramMap){
 	return 1;
 }
 	
-public ResultSet getVisitHistory(String patientId, String doctorId){
+public ResultSet getVisitDetail(String patientId, String doctorId, String visitId){
 
 	ResultSet dataRS = null;
 	
@@ -67,8 +67,18 @@ public ResultSet getVisitHistory(String patientId, String doctorId){
 		}
 		
 		if(doctorId != null){
+			if(patientId != null){
+				query += " and uv.created_by = " + doctorId;
+			}else{
 			query += " where uv.created_by = " + doctorId;
+			}
 		}
+		
+		if(visitId != null){
+			query += " where uv.user_visit_id = " + visitId;
+		}
+		
+		System.out.println("visitQuery ==>" + query);
 		
 		Statement stmt = conn.createStatement();
 		dataRS = stmt.executeQuery(query);

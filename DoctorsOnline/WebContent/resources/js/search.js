@@ -47,7 +47,7 @@ function openPage(oepration, patientId){
         alert('Delete called');
         break;
     case 'vHistory': 
-        alert('Visit History Called');
+        //alert('Visit History Called');
     	
     	var paramsMap = new Map();
     	var dataMap = new Map();

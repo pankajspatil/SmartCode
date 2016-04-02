@@ -38,7 +38,7 @@ $(document).ready(function() {
 System.out.println("patientId====>" + patientId);
 	Visit visit = new Visit();
 	
-	ResultSet dataRS = visit.getVisitHistory(patientId, null);
+	ResultSet dataRS = visit.getVisitDetail(patientId, null, null);
 	
 %>
 <form name="visitHistory" id="visitHistory">
@@ -53,13 +53,16 @@ System.out.println("patientId====>" + patientId);
 	</tr>
 </thead>
 <tbody>
-<%while(dataRS.next()){
+<%
+if(dataRS != null){
+
+while(dataRS.next()){
 	String visitId = dataRS.getString("user_visit_id");
 	String summary = Utils.getString(dataRS.getString("summary"));
 	String toolTipText = !summary.equals("") ? "class='clickableToolTip'" : "";
 	
-	%><tr>
-		<td><a class="clickableLink" href="" onclick="openVisitDetailsPage(<%=visitId%>)"><%=visitId%></a></td>
+	%><tr>	
+		<td><div class="clickableLink" onclick="openVisitDetailsPage(<%=visitId%>)"><%=visitId%></div></td>
 		<td><%=dataRS.getString("firstName") + " " + dataRS.getString("lastName") %></td>
 		<td><div class="clickableLink" onclick="openVisitDetailsPage(<%=visitId%>)"><%=dataRS.getString("created_on") %></div></td>
 		<td>
@@ -80,6 +83,7 @@ System.out.println("patientId====>" + patientId);
 		</td>
 	</tr><%
 } 
+}
 ConnectionsUtil.closeResultSet(dataRS);
 %>
 </tbody>

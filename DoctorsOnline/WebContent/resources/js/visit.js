@@ -237,6 +237,10 @@ var allPrescriptions = [];
 			
 		prescriptionData.prescriptionId = prescriptionId;
 		prescriptionData.prescriptionName = prescriptionName;
+		prescriptionData.fromDoseDays = fromDoseDays;
+		prescriptionData.doseDuration = doseDuration;
+		prescriptionData.tillDosedays = tillDosedays;
+		prescriptionData.doseTill = doseTill;
 		
 		
 		var row = "<tr>" +
@@ -254,8 +258,32 @@ var allPrescriptions = [];
 		allPrescriptions.push(prescriptionData);
 		}
 	}
+  
+  function updateVisitDetails(){
+	  var prescriptionDataHidden = $('#prescriptionData').val();
+	  if(prescriptionDataHidden !== ''){
+		  var tableObj = $('#addedPrescription');
+			$('#noData').remove();
+		  prescriptionData = JSON.parse(prescriptionDataHidden);
+		  $.each(prescriptionData, function(index, prescription){
+			  var row = "<tr>" +
+				"<td>" +
+					"<input type='hidden' name='prescriptionId' value='"+prescription.prescriptionId+"'>" + 
+					prescription.prescriptionName +
+				" </td>" +
+				"<td> Every" +prescription.fromDoseDays +" "+prescription.doseDuration+" "+" for "+prescription.tillDosedays +" "+prescription.doseTill +
+				"</td>" +
+			  "<td><div id='"+prescription.prescriptionId+"' class='clickableToolTip' onclick=displayTooltip(this,true) " +
+			  		"onmouseout='disableTooltip(this)' title='details'>Details</div></td>" +
+			"</tr>";
 
-	function deleteRow(cellObj){
+		tableObj.append(row);
+			});
+	  }
+	  $('input[type=text], textarea').attr('disabled', true);
+  }
+  
+  	function deleteRow(cellObj){
 		var row = cellObj.closest('tr');
 		row.remove();
 	}
@@ -268,11 +296,15 @@ function validateForm(){
 function openVisitDetailsPage(visitId){
 	window.opener.location = '/DoctorsOnline/pages/doctor/newVisit.jsp?visitId=' +visitId;
 	window.close();
+	window.blur();
+	window.opener.focus();
 }
 
-function displayTooltip(selectedObj){
+function displayTooltip(selectedObj, prescriptionStored){
 	
 	var textToDisplay = "";
+	
+	allPrescriptions = (prescriptionStored !== undefined || prescriptionStored == true ) ? JSON.parse($('#prescriptionData').val()) : allPrescriptions;
 	
 	$.each(allPrescriptions, function(index, prescriptionData){
 		if(prescriptionData.prescriptionId === $(selectedObj).attr('id')){
