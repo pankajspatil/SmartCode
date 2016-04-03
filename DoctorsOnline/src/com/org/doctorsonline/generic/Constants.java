@@ -28,6 +28,8 @@ public class Constants {
 	public static final String VISIT_DATE = "visit_date";
 
 	public static final String RETURN_STATUS = "return_status";
+
+	public static String PATIENT_APPOINTMENT_TIME="appointment_time";
 	
 	
 }

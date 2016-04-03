@@ -11,7 +11,7 @@ import com.org.doctorsonline.generic.Constants;
 
 public class Visit {
 
-public LinkedHashMap<String, Object> createNewVisit(LinkedHashMap<String, String> paramMap){
+public LinkedHashMap<String, Object> createNewVisit( LinkedHashMap<String, String> paramMap){
 	ConnectionsUtil connectionsUtil = new ConnectionsUtil();
 	LinkedHashMap<String, Object> returnMap = new LinkedHashMap<String, Object>();
 	try{
@@ -23,6 +23,7 @@ public LinkedHashMap<String, Object> createNewVisit(LinkedHashMap<String, String
 				+ "`bp`,`bmi`,`gfr`,`hbv`,`hiv`,`g6pd`,`ahb`, "+
 				"`allergy`,`summary`,`prescription_data`,`created_by`) " +
 				"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
 		PreparedStatement psmt = conn.prepareStatement(query);
 		
 		psmt.setString(1, paramMap.get(Constants.PATIENT_ID));

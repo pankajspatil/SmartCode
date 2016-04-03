@@ -274,6 +274,7 @@ public class Appointment {
 				appointmentModel.put(Constants.USER_ID,rs.getString("userId"));
 				appointmentModel.put(Constants.PATIENT_LAST_NAME,rs.getString("lastName"));
 				appointmentModel.put(Constants.PATIENT_APPOINTMENT_DATE,rs.getString("appointment_date"));
+				appointmentModel.put(Constants.PATIENT_APPOINTMENT_TIME,(rs.getString("hour") + ":" + rs.getString("minutes")));
 				appointmentModel.put(Constants.APPOINTMENT_ID,rs.getString("appointment_id"));
 				appointmentList.add(appointmentModel);
 			}

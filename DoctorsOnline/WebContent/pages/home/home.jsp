@@ -79,7 +79,7 @@ ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 					</div>
 				</td>
 				<td><%=appointmentModel.get(Constants.PATIENT_LAST_NAME)%></td>
-				<td><%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_DATE)%></td>
+				<td><%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_DATE)%><%=":" %> <%=appointmentModel.get(Constants.PATIENT_APPOINTMENT_TIME) %></td>
 				<td><input type="button" name="NewVisit" value="NV" onclick="openPage('vNew','<%=appointmentModel.get(Constants.USER_ID) %>')" />
 				<input type="button" name="Visit History" value="VH" onclick="openPage('vHistory','<%=appointmentModel.get(Constants.USER_ID) %>')" />
 				</td>
