@@ -262,7 +262,8 @@ public class Appointment {
 					+ " citybazz_doctoronline.time_master tm,citybazz_doctoronline.usermaster um"
 					+ " where am.patient_id=um.userid"
 					+ " and am.time_id=tm.time_id "
-					+ " and am.appointment_date >= date(sysdate())";
+					+ " and am.appointment_date >= date(sysdate())"
+					+ " order by am.appointment_date,tm.time_id";
 
 			PreparedStatement preparedStatement = conn.prepareStatement(query);
 			rs = preparedStatement.executeQuery();

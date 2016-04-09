@@ -29,7 +29,9 @@ public class Constants {
 
 	public static final String RETURN_STATUS = "return_status";
 
-	public static String PATIENT_APPOINTMENT_TIME="appointment_time";
+	public static final String PATIENT_APPOINTMENT_TIME="appointment_time";
 	
+	public static final String MEDICAL_TEST_MASTER_id = "medicalTestMasterId";
+
 	
 }
