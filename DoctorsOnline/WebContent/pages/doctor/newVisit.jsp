@@ -2,6 +2,7 @@
 <%@page import="com.org.doctorsonline.search.Visit"%>
 <%@page import="com.org.doctorsonline.generic.Constants"%>
 <%@page import="com.org.doctorsonline.generic.Utils"%>
+<%@page import="com.org.doctorsonline.search.MedicalTest"%>
 <%@page import="java.util.concurrent.ConcurrentHashMap"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.org.doctorsonline.generic.ConnectionsUtil"%>
@@ -132,7 +133,10 @@ try{
 			}
 		}
 		ConnectionsUtil.closeResultSet(dataRS);
-	}
+		MedicalTest medicalTest = new MedicalTest();
+		medicalTest.getMedicalTest();
+		
+}
 	
 	
 		%>
