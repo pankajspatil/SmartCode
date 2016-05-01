@@ -41,7 +41,7 @@ try{
 	Search search = new Search();
 	
 	String height = "", weight = "", bp = "", bmi = "", gfr = "", hbv = "", hiv = "", prescriptionData = "";
-	String g6pd = "", abnormalHB = "", allergy = "", visitSummary = "", patientName = "", visitId = "";
+	String g6pd = "", abnormalHB = "", allergy = "", visitSummary = "", patientName = "", visitId = "", medicalTestIds = "";
 	Integer returnValue = null;
 	String today = new Date().toString();
 	Visit visit = new Visit();
@@ -66,6 +66,7 @@ try{
 		abnormalHB = Utils.getString(request.getParameter(Constants.ABNORMAL_HB));
 		allergy = Utils.getString(request.getParameter(Constants.ALLERGY));
 		visitSummary = Utils.getString(request.getParameter(Constants.VISIT_SUMMARY));
+		medicalTestIds = Utils.getString(request.getParameter(Constants.MEDICAL_TEST_IDS));
 		
 		LinkedHashMap<String, String> paramMap = new LinkedHashMap<String, String>();
 		paramMap.put(Constants.PRESCRIPTION_DATA, prescriptionData);
@@ -83,6 +84,7 @@ try{
 		paramMap.put(Constants.PATIENT_ID, userId);
 		paramMap.put(Constants.VISIT_SUMMARY, visitSummary);
 		paramMap.put(Constants.APPOINTMENT_ID, appointmentId);
+		paramMap.put(Constants.MEDICAL_TEST_IDS, medicalTestIds);
 		System.out.println("paramMap===>" + paramMap);
 		
 		LinkedHashMap<String, Object> returnMap = visit.createNewVisit(paramMap);
@@ -133,9 +135,6 @@ try{
 			}
 		}
 		ConnectionsUtil.closeResultSet(dataRS);
-		MedicalTest medicalTest = new MedicalTest();
-		medicalTest.getMedicalTest();
-		
 }
 	
 	
@@ -153,7 +152,7 @@ try{
 	</table>
 	<br />
 	<br />
-	<table align="center" width="60%">
+	<table align="center" width="60%" border="1">
 		<tr>
 			<td>Weight :</td>
 			<td><input type="text" name="weight" size="5" id="weight" value="<%=weight%>"></td>
@@ -185,6 +184,8 @@ try{
 		<tr>
 			<td colspan="6" align="left"><textarea rows="6" cols="1"
 					name="visitSummary" id="visitSummary" style="width: 100%"><%=visitSummary %></textarea></td>
+			<td align="center"><div onclick="openDocumentsUpload()">Upload Documents</div></hr>
+			<div onclick="openSuggestTests()">Suggest Tests</div></td>
 		</tr>
 	</table>
 	<br />
@@ -316,6 +317,7 @@ try{
 	<input type="hidden" value='<%=prescriptionData %>' name="prescriptionData" id="prescriptionData">
 	<input type="hidden" value="<%=userId %>" name="userId" id="userId">
 	<input type="hidden" value="<%=appointmentId %>" name="appointmentId" id="appointmentId">
+	<input type="hidden" value="<%=medicalTestIds %>" name="medicalTestIds" id="medicalTestIds">
 	
 	
 	<script type="text/javascript">

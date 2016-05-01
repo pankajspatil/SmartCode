@@ -1,3 +1,4 @@
+<%@page import="org.json.simple.JSONObject"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -28,10 +29,12 @@
 		if(request.getParameter("menuRequired") == null){
 			%><%@ include file="/pages/header/menu.jsp"%><%
 		}
+		JSONObject configLookup = (JSONObject)getServletContext().getAttribute("config");
+	
 	%>
 	
 <script type="text/javascript">
-	var configObj = <%=getServletContext().getAttribute("config")%>;
+	var configObj = <%=configLookup%>;
 </script>
 </body>
 </html>

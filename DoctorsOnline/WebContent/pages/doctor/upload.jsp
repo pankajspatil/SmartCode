@@ -1,27 +1,68 @@
+<%-- 
+    Document   : upload
+    Created on : Nov 3, 2012, 12:31:16 PM
+    Author     : Amila
+--%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Force latest IE rendering engine or ChromeFrame if installed -->
+        <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><![endif]-->
         <meta charset="utf-8">
+        <title>jQuery File Upload Demo</title>
+        <meta name="description" content="File Upload widget with multiple file selection, drag&amp;drop support, progress bar and preview images for jQuery. Supports cross-domain, chunked and resumable file uploads. Works with any server-side platform (Google App Engine, PHP, Python, Ruby on Rails, Java, etc.) that supports standard HTML form file uploads.">
+        <meta name="viewport" content="width=device-width">
         <!-- Bootstrap CSS Toolkit styles -->
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
         <!-- Generic page styles -->
-        <link rel="stylesheet" href="/DoctorsOnline/resources/css/fileUpload/upload.style.css">
+        <link rel="stylesheet" href="/DoctorsOnline/resources/css/upload.style.css">
         <!-- Bootstrap styles for responsive website layout, supporting different screen sizes -->
-        <link rel="stylesheet" href="/DoctorsOnline/resources/css/fileUpload/bootstrap-responsive.min.css">
+        <link rel="stylesheet" href="/DoctorsOnline/resources/css/bootstrap-responsive.min.css">
         <!-- Bootstrap CSS fixes for IE6 -->
         <!--[if lt IE 7]><link rel="stylesheet" href="http://blueimp.github.com/cdn/css/bootstrap-ie6.min.css"><![endif]-->
         <!-- Bootstrap Image Gallery styles -->
-        <link rel="stylesheet" href="/DoctorsOnline/resources/css/fileUpload/bootstrap-image-gallery.min.css">
+        <link rel="stylesheet" href="/DoctorsOnline/resources/css/bootstrap-image-gallery.min.css">
         <!-- CSS to style the file input field as button and adjust the Bootstrap progress bars -->
-        <link rel="stylesheet" href="/DoctorsOnline/resources/css/fileUpload/jquery.fileupload-ui.css">
+        <link rel="stylesheet" href="/DoctorsOnline/resources/css/jquery.fileupload-ui.css">
         <!-- Shim to make HTML5 elements usable in older Internet Explorer versions -->
         <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
     </head>
-    <body style="text-align: center;">
-    <h1>Upload Documents</h1>
-    
-        <div class="container" style="padding-left: 165px; padding-top: 33px;">
+    <body>
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+                    <a class="brand" href="https://github.com/blueimp/jQuery-File-Upload">jQuery File Upload</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Demo</a></li>
+                            <li><a href="https://github.com/blueimp/jQuery-File-Upload/downloads">Downloads</a></li>
+                            <li><a href="https://github.com/blueimp/jQuery-File-Upload">Source Code</a></li>
+                            <li><a href="https://github.com/blueimp/jQuery-File-Upload/wiki">Documentation</a></li>
+                            <li><a href="https://github.com/blueimp/jQuery-File-Upload/issues">Issues</a></li>
+                            <li><a href="test/">Test</a></li>
+                            <li><a href="https://blueimp.net">&copy; Sebastian Tschan</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="page-header">
+                <h1>jQuery File Upload Demo</h1>
+            </div>
+            <blockquote>
+                <p>File Upload widget with multiple file selection, drag&amp;drop support, progress bars and preview images for jQuery.<br>
+                    Supports cross-domain, chunked and resumable file uploads and client-side image resizing.<br>
+                    Works with any server-side platform (PHP, Python, Ruby on Rails, Java, Node.js, Go etc.) that supports standard HTML form file uploads.</p>
+            </blockquote>
+            <br>
             <!-- The file upload form used as target for the file upload widget -->
             <form id="fileupload" action="UploadServlet" method="POST" enctype="multipart/form-data">
                 <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
@@ -63,7 +104,18 @@
                 <!-- The table listing the files available for upload/download -->
                 <table role="presentation" class="table table-striped"><tbody class="files" data-toggle="modal-gallery" data-target="#modal-gallery"></tbody></table>
             </form>
-            
+            <br>
+            <div class="well">
+                <h3>Demo Notes</h3>
+                <ul>
+                    <li>The maximum file size for uploads in this demo is <strong>5 MB</strong> (default file size is unlimited).</li>
+                    <li>Only image files (<strong>JPG, GIF, PNG</strong>) are allowed in this demo (by default there is no file type restriction).</li>
+                    <li>Uploaded files will be deleted automatically after <strong>5 minutes</strong> (demo setting).</li>
+                    <li>You can <strong>drag &amp; drop</strong> files from your desktop on this webpage with Google Chrome, Mozilla Firefox and Apple Safari.</li>
+                    <li>Please refer to the <a href="https://github.com/blueimp/jQuery-File-Upload">project website</a> and <a href="https://github.com/blueimp/jQuery-File-Upload/wiki">documentation</a> for more information.</li>
+                    <li>Built with Twitter's <a href="http://twitter.github.com/bootstrap/">Bootstrap</a> toolkit and Icons from <a href="http://glyphicons.com/">Glyphicons</a>.</li>
+                </ul>
+            </div>
         </div>
         <!-- modal-gallery is the modal dialog used for the image gallery -->
         <div id="modal-gallery" class="modal modal-gallery hide fade" data-filter=":odd">
@@ -94,8 +146,7 @@
 
         <!-- The template to display files available for upload -->
         <script id="template-upload" type="text/x-tmpl">
-            {% for (var i=0, file; file=o.files[i]; i++) { console.log(file);%}
-
+            {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-upload fade">
             <td class="preview"><span class="fade"></span></td>
             <td class="name"><span>{%=file.name%}</span></td>
@@ -126,15 +177,7 @@
     </script>
     <!-- The template to display files available for download -->
     <script id="template-download" type="text/x-tmpl">
-        {% for (var i=0, file; file=o.files[i]; i++) { 
-	var allowedType = new RegExp('jpg|jpeg|png');
-
-        if (!allowedType.test(file.name)) {
-            //alert('Great, you entered an E-Mail-address');
-			//debugger;
-			file.thumbnail_url = '';
-        }
-		%}
+        {% for (var i=0, file; file=o.files[i]; i++) { %}
         <tr class="template-download fade">
             {% if (file.error) { %}
             <td></td>
@@ -162,18 +205,18 @@
         {% } %}
     </script>
 
-    <script src="/DoctorsOnline/resources/js/fileUpload/jquery-1.8.2.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/vendor/jquery.ui.widget.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/tmpl.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/load-image.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/canvas-to-blob.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/bootstrap.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/bootstrap-image-gallery.min.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/jquery.iframe-transport.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/jquery.fileupload.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/jquery.fileupload-fp.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/jquery.fileupload-ui.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/locale.js"></script>
-    <script src="/DoctorsOnline/resources/js/fileUpload/main.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/jquery-1.8.2.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/vendor/jquery.ui.widget.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/tmpl.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/load-image.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/canvas-to-blob.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/bootstrap.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/bootstrap-image-gallery.min.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/jquery.iframe-transport.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/jquery.fileupload.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/jquery.fileupload-fp.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/jquery.fileupload-ui.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/locale.js"></script>
+    <script src="/DoctorsOnline/resources/js/js/main.js"></script>
 </body> 
 </html>

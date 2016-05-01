@@ -31,7 +31,13 @@ public class Constants {
 
 	public static final String PATIENT_APPOINTMENT_TIME="appointment_time";
 	
-	public static final String MEDICAL_TEST_MASTER_id = "medicalTestMasterId";
+	public static final String MEDICAL_TEST_IDS = "medicalTestIds";
+	
+	public static final String MAX_ROWS_MEDICAL_TEST = "MAX_ROWS_MEDICAL_TEST";
+
+	public static final String NUMBER_OF_ROWS = "NUMBER_OF_ROWS";
+	
+	
 
 	
 }

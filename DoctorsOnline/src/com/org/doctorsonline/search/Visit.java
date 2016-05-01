@@ -3,6 +3,7 @@ package com.org.doctorsonline.search;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedHashMap;
 
@@ -21,8 +22,8 @@ public LinkedHashMap<String, Object> createNewVisit( LinkedHashMap<String, Strin
 		
 		String query = "INSERT INTO `user_visit` (`patient_id`,`weight`,`height`,"
 				+ "`bp`,`bmi`,`gfr`,`hbv`,`hiv`,`g6pd`,`ahb`, "+
-				"`allergy`,`summary`,`prescription_data`,`created_by`) " +
-				"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				"`allergy`,`summary`,`prescription_data`,`created_by`,`medical_test_ids`) " +
+				"values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		
 		PreparedStatement psmt = conn.prepareStatement(query);
 		
@@ -40,6 +41,7 @@ public LinkedHashMap<String, Object> createNewVisit( LinkedHashMap<String, Strin
 		psmt.setString(12, paramMap.get(Constants.VISIT_SUMMARY));
 		psmt.setString(13, paramMap.get(Constants.PRESCRIPTION_DATA));
 		psmt.setString(14, paramMap.get(Constants.USER_ID));
+		psmt.setString(15, paramMap.get(Constants.MEDICAL_TEST_IDS));
 		
 		psmt.executeUpdate();
 		
@@ -49,7 +51,7 @@ public LinkedHashMap<String, Object> createNewVisit( LinkedHashMap<String, Strin
 			//returnMap.put(Constants.VISIT_DATE, dataRS.getDate("created_on"));
 		}
 		
-		if(paramMap.get(Constants.APPOINTMENT_ID) != null || !paramMap.get(Constants.APPOINTMENT_ID).equals("")){
+		if(paramMap.get(Constants.APPOINTMENT_ID) != null && !paramMap.get(Constants.APPOINTMENT_ID).equals("")){
 			query = "update appointment_master set appointment_status = (select status_id from status_master where status_code = 'CONFIRMED') "
 					+ "where appointment_id = " + paramMap.get(Constants.APPOINTMENT_ID);
 			conn.createStatement().executeUpdate(query);
@@ -106,5 +108,55 @@ public ResultSet getVisitDetail(String patientId, String doctorId, String visitI
 	
 	return dataRS;
 
+}
+
+public LinkedHashMap<String, Object> getMedicalTests(){
+	
+	ConnectionsUtil connectionsUtil = new ConnectionsUtil();
+	Connection conn = connectionsUtil.getConnection();
+	
+	LinkedHashMap<String, Object> returnMap = new LinkedHashMap<String, Object>();
+	Integer numberOfRows = 0;
+	try{
+		
+		String query = "select m.*, mt.Medical_Test_Master_label as parent_label from medical_test_master m " +
+				"left join medical_test_master mt on m.parent_id = mt.medical_test_master_id " +
+				"where m.parent_id is not null order by m.parent_id;";
+		
+		ResultSet dataRS = conn.createStatement().executeQuery(query);
+		String oldParentTestId = "", oldParentLabel = "", parentId = "", parentLabel = "";
+		LinkedHashMap<String, String> childMap = new LinkedHashMap<String, String>();
+		
+		
+		while(dataRS.next()){
+			
+			parentId = dataRS.getString("parent_id");
+			parentLabel = dataRS.getString("parent_label");
+			
+			if(!oldParentTestId.equals("") && !oldParentTestId.equals(parentId)){
+				returnMap.put(oldParentTestId + "##" + oldParentLabel, childMap);				
+				childMap = new LinkedHashMap<String, String>();
+			}
+			
+			childMap.put(dataRS.getString("medical_test_master_id"), dataRS.getString("Medical_Test_Master_label"));
+			oldParentTestId = parentId;
+			oldParentLabel = parentLabel;
+			numberOfRows ++;
+		}
+		if(!parentId.equals("")){
+			returnMap.put(parentId + "##" + parentLabel, childMap);
+		}		
+		
+	}catch(Exception ex){
+		ex.printStackTrace();
+	}
+	try {
+		conn.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	returnMap.put(Constants.NUMBER_OF_ROWS, numberOfRows);
+	return returnMap;
 }
 }

@@ -58,7 +58,7 @@ function openPage(oepration, patientId, appointmentId){
     	paramsMap.put(WIN_URL, '/DoctorsOnline/pages/doctor/visitHistory.jsp');
     	paramsMap.put(DATA, dataMap);
     	
-    	openVisitHistory(paramsMap);
+    	openWindow(paramsMap);
     	    	
     	break;      
     case 'vNew': 
@@ -79,7 +79,7 @@ function openPage(oepration, patientId, appointmentId){
 }
 }
 	
-function openVisitHistory(paramsMap){
+function openWindow(paramsMap){
 	
 	var winName='MyWindow';
 	  var winURL = paramsMap.get(WIN_URL);

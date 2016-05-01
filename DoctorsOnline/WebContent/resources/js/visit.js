@@ -350,3 +350,42 @@ function disableTooltip(selectedObj){
 	  }
 }
 
+function openDocumentsUpload(){
+	
+	var paramsMap = new Map();
+	var dataMap = new Map();
+	
+	//dataMap.put(PATIENT_ID, patientId);
+	//dataMap.put(MENU_REQUIRED,false);
+	
+	paramsMap.put(WIN_URL, '/DoctorsOnline/pages/doctor/documentsUpload.jsp');
+	paramsMap.put(DATA, dataMap);
+	
+	openWindow(paramsMap);
+}
+
+function openSuggestTests(){
+	var paramsMap = new Map();
+	var dataMap = new Map();
+	
+	//dataMap.put(PATIENT_ID, patientId);
+	dataMap.put(MENU_REQUIRED,false);
+	
+	paramsMap.put(WIN_URL, '/DoctorsOnline/pages/doctor/suggestTest.jsp');
+	paramsMap.put(DATA, dataMap);
+	
+	openWindow(paramsMap);
+}
+
+function submitTests(){
+	var ids = ''; 
+	$('input[type=checkbox]:checked').each(function(){
+		ids += $(this).val() + ','; 
+	    //ids.push($(this).val());
+	});
+	ids = ids.replace(/,$/g, '');
+	window.opener.$('#medicalTestIds').val(ids);
+	alert(ids);
+	alert("ids==>" + window.opener.$('#medicalTestIds').val());
+	window.close();
+}
