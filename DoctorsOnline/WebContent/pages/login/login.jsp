@@ -40,7 +40,7 @@
     <div class="login">
       <h1>Login</h1>
       <form method="post" action="">
-        <p><input type="text" name="userName" value="<%=userName %>" placeholder="Username or Email"></p>
+        <p><input type="text" name="userName" value="<%=userName %>" placeholder="Username"></p>
         <p><input type="password" name="password" value="<%=password %>" placeholder="Password"></p>
         <%	
         	if(userId != null && userId == 0){
@@ -55,7 +55,7 @@
           </label>
         </p>
         <p class="submit">
-        	<input type="submit" name="commit" value="Login"></p><p>
+        	<input type="submit" name="commit" value="Login">&nbsp;&nbsp;
         	<input style="float: right; text-align: right;" type="button" name="signUP" value="SignUp" onclick="location.href='/DoctorsOnline/pages/login/createUser.jsp'">
         </p>
         <input type="hidden" name="page1" value="submit" />
