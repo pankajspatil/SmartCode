@@ -83,8 +83,10 @@ function openWindow(paramsMap){
 	
 	var winName='MyWindow';
 	  var winURL = paramsMap.get(WIN_URL);
-	  var width = paramsMap.hasKey(WIDTH) ? paramsMap.get(WIDTH) : '800';
-	  var height = paramsMap.hasKey(HEIGHT) ? paramsMap.get(HEIGHT) : '600';
+	  var width = paramsMap.hasKey(WIDTH) ? paramsMap.get(WIDTH) : screen.width;
+	  var height = paramsMap.hasKey(HEIGHT) ? paramsMap.get(HEIGHT) : screen.height;
+	  
+	  //alert("width==>" + width + height);
 	  
 	  var left = (screen.width/2)-(width/2);
 	  var top = (screen.height/2)-(height/2);

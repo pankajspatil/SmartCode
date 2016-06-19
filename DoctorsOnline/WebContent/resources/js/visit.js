@@ -355,8 +355,8 @@ function openDocumentsUpload(){
 	var paramsMap = new Map();
 	var dataMap = new Map();
 	
-	//dataMap.put(PATIENT_ID, patientId);
-	//dataMap.put(MENU_REQUIRED,false);
+	paramsMap.put(WIDTH, 800);
+	paramsMap.put(HEIGHT,600);
 	
 	paramsMap.put(WIN_URL, '/DoctorsOnline/pages/doctor/documentsUpload.jsp');
 	paramsMap.put(DATA, dataMap);
@@ -385,7 +385,27 @@ function submitTests(){
 	});
 	ids = ids.replace(/,$/g, '');
 	window.opener.$('#medicalTestIds').val(ids);
-	alert(ids);
-	alert("ids==>" + window.opener.$('#medicalTestIds').val());
+	//alert("ids==>" + window.opener.$('#medicalTestIds').val());
 	window.close();
+}
+
+function updateMedicalTests(){
+	var ids = window.opener.$('#medicalTestIds').val();
+	if(ids != ''){
+		var idsArray = ids.split(",");
+		for(var i = 0; i < idsArray.length ; i++){
+			$('#checkboxG'+idsArray[i]).attr('checked',true);
+		}
+	}
+	if(window.opener.visitId != ''){
+		disableTests();
+	}
+	
+}
+
+function disableTests(){
+	$('input[type=checkbox]').each(function(){
+		$(this).attr("disabled",true);
+	});
+	$('#submitTests').hide();
 }

@@ -30,11 +30,11 @@
 			maxCount = configLookup.get(Constants.MAX_ROWS_MEDICAL_TEST) != null ? Integer.parseInt(configLookup.get(Constants.MAX_ROWS_MEDICAL_TEST).toString()) : 10, 
 			maxRows = maxCount;
 			medicalTestMap.remove(Constants.NUMBER_OF_ROWS);
-	out.println("numberOfTests===>" + numberOfTests + maxCount);
+	//out.println("numberOfTests===>" + numberOfTests + maxCount);
 			
 	if(numberOfTests > 0){
 		int numberOfTableColumns = (numberOfTests % maxCount != 0) ? (numberOfTests / maxCount ) + 1 : (numberOfTests / maxCount );
-		out.println("numberOfTableColumns===>" + numberOfTableColumns);
+		//out.println("numberOfTableColumns===>" + numberOfTableColumns);
 		%>
 		<h1 align="center">Medical Tests</h1>
 		<table>
@@ -70,8 +70,10 @@
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<td colspan="<%=numberOfTableColumns%>" align="center">
+		</table><br/><br/><br/>
+		<table align="center">
+		<tr align="center">
+				<td align="center">
 					<input type="button" id="submitTests" onclick="submitTests()" value="Submit">
 				</td>
 			</tr>
@@ -83,6 +85,6 @@
 	}
 	
 %>
-
+<script>updateMedicalTests()</script>
 </body>
 </html>

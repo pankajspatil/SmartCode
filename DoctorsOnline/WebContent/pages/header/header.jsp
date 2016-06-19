@@ -16,6 +16,7 @@
 <title>Doctor's Online</title>
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/generic.css">
 <link rel="stylesheet" href="/DoctorsOnline/resources/css/search.css">
+<link rel="stylesheet" href="/DoctorsOnline/resources/css/main.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/resources/css/menu.css">
 </head>

@@ -62,7 +62,7 @@
 						  <img src="/DoctorsOnline/resources/images/grid-img1.png">
 					</div>
 					<div class="text list_1_of_2">
-						  <a href="/DoctorsOnline/pages/login/login.jsp"><h3>doctors Login</h3></a>
+						  <a href="/DoctorsOnline/pages/login/login.jsp"><h3>Doctors Login</h3></a>
 						  <p>Need More info?</p>
 						  <div class="button"><span><a href="#">View More</a></span></div>
 					</div>

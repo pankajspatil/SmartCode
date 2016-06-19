@@ -45,14 +45,12 @@
 </script>
 
 </head>
+<body>
 <%
 	Appointment appointment = new Appointment();
 ArrayList<LinkedHashMap<String, String>> appointmentList = appointment
 			.getAppointmentList();
 %>
-<body>
-	<br />
-	<br />
 	<br />
 	<h1 class="moduleHeader" style="text-align: center;">Appointment Home Page</h1>
 

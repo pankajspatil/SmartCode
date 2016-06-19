@@ -53,7 +53,7 @@ try{
 		
 	if(request.getParameter("page1") != null){
 		prescriptionData = Utils.getString(request.getParameter("prescriptionData"));
-		out.println("prescriptionData===>" + prescriptionData);
+		//out.println("prescriptionData===>" + prescriptionData);
 		
 		height = Utils.getString(request.getParameter(Constants.HEIGHT));
 		weight = Utils.getString(request.getParameter(Constants.WEIGHT));
@@ -132,6 +132,7 @@ try{
 				//Sun Apr 03 01:26:53 IST 2016
 				SimpleDateFormat sdfDate = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");				
 				today = sdfDate.format(dataRS.getTimestamp("created_on"));
+				medicalTestIds = Utils.getString(dataRS.getString("medical_test_ids"));
 			}
 		}
 		ConnectionsUtil.closeResultSet(dataRS);
@@ -152,7 +153,7 @@ try{
 	</table>
 	<br />
 	<br />
-	<table align="center" width="60%" border="1">
+	<table align="center" width="60%">
 		<tr>
 			<td>Weight :</td>
 			<td><input type="text" name="weight" size="5" id="weight" value="<%=weight%>"></td>
