@@ -37,10 +37,10 @@ public class Login {
 			ex.printStackTrace();
 		} finally {
 			try {
-				if(conn !=null){
+				if (conn != null) {
 					conn.close();
 				}
-				
+
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -88,7 +88,9 @@ public class Login {
 			connectionsUtil = new ConnectionsUtil();
 			conn = connectionsUtil.getConnection();
 
-			String query = "insert into userMaster(userName, firstName, middleName, lastName, password,RoleId,userAddress,Phone,DOB,sex,createdBy,createdOn,isActive) values(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			String query = "insert into userMaster(userName, firstName, middleName, lastName,"
+					+ " password,RoleId,locality,Phone,DOB,sex,createdBy,createdOn,isActive,pincode,street,city) "
+					+ " values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 			PreparedStatement psm = conn.prepareStatement(query);
 			psm.setString(1, user.getUid());
@@ -97,14 +99,17 @@ public class Login {
 			psm.setString(4, user.getLastName());
 			psm.setString(5, user.getUid());
 			psm.setString(6, user.getRoleId());
-			psm.setString(7, user.getAddress());
+			psm.setString(7, user.getLocality());
 			psm.setString(8, user.getPhone());
 			psm.setString(9, user.getDob());
 			psm.setString(10, user.getGender());
 			psm.setString(11, "admin");
 			psm.setString(12, "2015-06-13 12:32:24");
 			psm.setInt(13, 1);
-
+			psm.setString(14, user.getPinCode());
+			psm.setString(15, user.getStreet());
+			psm.setString(16, user.getCity());
+			
 			psm.executeUpdate();
 			return true;
 
@@ -125,7 +130,7 @@ public class Login {
 		try {
 			connectionsUtil = new ConnectionsUtil();
 			conn = connectionsUtil.getConnection();
-			
+
 			String query = "select mm.menu_description from role_master rm,"
 					+ "role_menu_map rmm,menu_master mm,usermaster um 	where 	 "
 					+ "rm.role_id = rmm.role_id and 	 um.RoleId = rm.role_id and 	 "

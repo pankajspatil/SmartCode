@@ -12,7 +12,8 @@ public class User {
 	private String dob;
 	private String uid;
 	private String phone;
-	private String address;
+	private String street;
+	private String city;
 	private String gender;
 	private String pinCode;
 	private String isActive;
@@ -71,11 +72,17 @@ public class User {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getAddress() {
-		return address;
+	public String getStreet() {
+		return street;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
 	}
 	public String getGender() {
 		return gender;

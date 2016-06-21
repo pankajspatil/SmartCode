@@ -22,10 +22,12 @@
 		user.setDob(Utils.getString(request.getParameter("dob")));
 		user.setUid(Utils.getString(request.getParameter("uid")));
 		user.setPhone(Utils.getString(request.getParameter("phone")));
-		user.setAddress(Utils.getString(request.getParameter("address")));
+		user.setLocality(Utils.getString(request.getParameter("locality")));
 		user.setGender(Utils.getString(request.getParameter("gender")));
 		user.setPinCode(Utils.getString(request.getParameter("pinCode")));
-
+		user.setStreet(Utils.getString(request.getParameter("street")));
+		user.setCity(Utils.getString(request.getParameter("city")));
+		
 		String page1 = request.getParameter("page1");
 
 		Boolean userCreated = false;
@@ -100,9 +102,17 @@
 					value="<%=user.getUid()%>"></td>
 			</tr>
 			<tr class="mainTR">
-				<td>Address</td>
-				<td><textarea class="fullText" id="address" name="address"
-						size="40" rows="10" cols="50"></textarea></td>
+				<td>Locality</td>
+				<td><textarea class="fullText" id="locality" name="locality"
+						size="40" rows="5" cols="30"></textarea></td>
+			</tr>
+			<tr class="mainTR">
+				<td>Street</td>
+				<td><input class="fullText" type="text" id="street" name="street" value="<%=user.getStreet()%>"></textarea></td>
+			</tr>
+			<tr class="mainTR">
+				<td>City</td>
+				<td><input class="fullText" type="text" id="city" name="city" value="<%=user.getCity()%>"></textarea></td>
 			</tr>
 			<tr class="mainTR">
 				<td>Gender</td>
