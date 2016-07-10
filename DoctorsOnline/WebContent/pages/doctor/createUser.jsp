@@ -49,7 +49,7 @@
 			} else {
 	%>
 	<script type="text/javascript">
-		alert('User Alreay exist');
+		alert('User Already exist');
 	</script>
 	<%
 		}

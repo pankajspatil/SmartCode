@@ -154,4 +154,23 @@ public class Login {
 		return menuList;
 	}
 
+	public ResultSet getDoctorsUser(String doctorName){
+		
+		ResultSet dataRS = null;
+		
+		try{
+			connectionsUtil = new ConnectionsUtil();		
+			conn = connectionsUtil.getConnection();
+			String query = "select * from userMaster where createdby  = ?";
+			PreparedStatement pst = conn.prepareStatement(query);
+			pst.setString(1, doctorName);
+			dataRS = pst.executeQuery();
+			
+			query = null;connectionsUtil = null;			
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return dataRS;
+	}
+	
 }

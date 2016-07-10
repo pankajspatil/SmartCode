@@ -51,6 +51,13 @@
 				}
 			%>
 			<%
+				if (menulist.contains("User Management")) {
+			%>
+			<li><a href='<%=Contextpath%>/pages/doctor/doctorsUser.jsp'><span>User Management</span></a></li>
+			<%
+				}
+			%>
+			<%
 				if (menulist.contains("Logout")) {
 			%>
 			<li class='last'><a

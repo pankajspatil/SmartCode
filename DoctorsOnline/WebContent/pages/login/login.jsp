@@ -30,6 +30,7 @@
 		userId = login.verifyUser(userName, password);
 		if (userId != 0) {
 			session.setAttribute("userId", userId);
+			session.setAttribute("userName", userName);
 			List<String> list = login.getUserMenu(userName);
 			session.setAttribute("menu", list);
 			response.sendRedirect(request.getContextPath()
