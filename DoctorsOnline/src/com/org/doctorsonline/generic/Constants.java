@@ -22,6 +22,12 @@ public class Constants {
 	public static final String PATIENT_MIDDLE_NAME = "middleName";
 	public static final String PATIENT_APPOINTMENT_DATE = "appointment_date";
 	public static final String APPOINTMENT_ID = "appointment_id";
+	
+	public static final String EXPENSE_ID = "expense_id";
+
+	public static final String EXPENSE_DESC = "expense_desc";
+	
+	public static final String EXPENSE_AMOUNT = "expense_amount";
 
 	public static final String VISIT_ID = "visit_id";
 

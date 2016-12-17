@@ -51,6 +51,22 @@
 				}
 			%>
 			<%
+				if (menulist.contains("Expense")) {
+			%>
+			<li class='has-sub'><a href='#'><span>Reports</span></a>
+				<ul>
+					<li class='first-child'><a
+						href='<%=request.getContextPath()%>/pages/doctor/expense.jsp'><span>Add Expense</span></a>
+					</li>
+					<li class='first-child'><a
+						href='<%=request.getContextPath()%>/pages/doctor/History.jsp'><span>Expense History</span></a>
+					</li>
+				</ul>
+				
+			<%
+				}
+			%>
+			<%
 				if (menulist.contains("User Management")) {
 			%>
 			<li><a href='<%=Contextpath%>/pages/doctor/doctorsUser.jsp'><span>User Management</span></a></li>
